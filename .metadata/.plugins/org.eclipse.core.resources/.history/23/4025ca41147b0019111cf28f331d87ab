@@ -14,8 +14,6 @@ public class MainApp {
         for (String i : t.getDeclarationTokens()){
             System.out.println(i);
         }
-        ClassInfo c = new ClassInfo(t.getDeclarationTokens());
-        c.printTable();
     }
 }
 

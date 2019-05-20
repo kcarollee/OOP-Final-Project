@@ -18,30 +18,6 @@ public class Parser {
                 mainTextIndex = file.read();
             }
 
-            /* // the following code is for testing purposes
-            System.out.println(mainTextBuffer);
-            System.out.println(mainTextBuffer.length());
-            System.out.println(mainTextBuffer.charAt(11));
-
-            char[] temp = new char[mainTextBuffer.length()];
-            for (int i = 0; i < mainTextBuffer.length(); i++){
-                temp[i] = mainTextBuffer.charAt(i);
-            }
-            int test1 = 0;
-            int test2 = 0;
-            for (int i = 0; i < mainTextBuffer.length(); i++){
-                if (temp[i] == ' ' || temp[i] == '\r'){
-                    System.out.print("X");
-                    test1++;
-                }
-                else {
-                    System.out.print(temp[i]);
-                    test2++;
-                }
-            }
-            */
-
-
         } catch (FileNotFoundException e){
             System.out.println("FILE NOT FOUND EXCEPTION");
         } catch(IOException e){
