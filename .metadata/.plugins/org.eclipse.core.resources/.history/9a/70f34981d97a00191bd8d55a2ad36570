@@ -7,20 +7,19 @@ public class ClassInfo  {
     public ArrayList<String> MethodNames = new ArrayList<String>();
     public ArrayList<String> ReturnTypes = new ArrayList<String>();
     public ArrayList<String> MethodAccessTypes = new ArrayList<String>();
-    public ArrayList<String> declarationTokens;
+    public ArrayList<String> mainTextTokens;
     public KeyWords keyWords = new KeyWords();
 
-    public ClassInfo(ArrayList<String> declarationTokens){
-        this.declarationTokens = declarationTokens;
-        className = declarationTokens.get(1);
+    public ClassInfo(ArrayList<String> mainTextTokens){
+        this.mainTextTokens = mainTextTokens;
     }
 
     public String getClassName(){
-        return className;
+        return mainTextTokens.get(1);
     }
 
     public void processTokens(){
-        
+
     }
 
 
