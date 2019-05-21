@@ -16,4 +16,16 @@
 		<item key="DIALOG_X_ORIGIN" value="374"/>
 		<item key="DIALOG_Y_ORIGIN" value="22"/>
 	</section>
+	<section name="ImportExportAction">
+		<item key="ImportExportPage.STORE_SELECTED_IMPORT_WIZARD_ID" value="org.eclipse.ui.wizards.import.Preferences"/>
+		<list key="ImportExportPage.STORE_EXPANDED_IMPORT_CATEGORIES">
+			<item value="org.eclipse.ui.Basic"/>
+		</list>
+	</section>
+	<section name="PreferencesImportWizard">
+		<item key="" value="C:\Users\kcaro\Downloads\theme-1.epf"/>
+		<list key="WizardPreferencesExportPage1.STORE_DESTINATION_NAMES_ID">
+			<item value="C:\Users\kcaro\Downloads\theme-1.epf"/>
+		</list>
+	</section>
 </section>

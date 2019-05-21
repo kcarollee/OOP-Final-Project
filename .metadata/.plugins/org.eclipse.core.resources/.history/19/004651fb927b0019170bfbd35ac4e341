@@ -54,18 +54,6 @@ public class ClassInfo  {
     	}
     }
     
-    public String getName(int index) {
-    	return tableArray.get(index)[0];
-    }
-    
-    public String getType(int index) {
-    	return tableArray.get(index)[1];
-    }
-    
-    public String getAccess(int index) {
-    	return tableArray.get(index)[2];
-    }
-    
     public boolean isAccessSpecifier(String token) {
     	for (int k = 0; k < keyWords.getAccessSpecifiers().length; k++) {
     		if (token.equals(keyWords.getAccessSpecifiers()[k]))

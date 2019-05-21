@@ -104,7 +104,6 @@ public class Tokenizer {
                                 	// 괄호가 닫힐때까지 무시하기.
                                     continue;
                             }
-                            // 소괄호 고려를 안해도 될 경우
                             else {
                                 if (isCharOrParenthesis(mainTextBuffer.charAt(i))) {
                                     temp += mainTextBuffer.charAt(i);

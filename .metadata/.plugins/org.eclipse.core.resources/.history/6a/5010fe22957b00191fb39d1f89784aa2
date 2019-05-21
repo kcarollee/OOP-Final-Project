@@ -97,14 +97,11 @@ public class Tokenizer {
                                 if (mainTextBuffer.charAt(i) == ')') {
                                     // 괄호 자체는 토큰에 들어가야 합니다. 
                                 	temp += mainTextBuffer.charAt(i);
-                                	// 열림 플래그를 false로 설정
                                     parenthesisOpen = false;
                                 }
                                 else
-                                	// 괄호가 닫힐때까지 무시하기.
                                     continue;
                             }
-                            // 소괄호 고려를 안해도 될 경우
                             else {
                                 if (isCharOrParenthesis(mainTextBuffer.charAt(i))) {
                                     temp += mainTextBuffer.charAt(i);

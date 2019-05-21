@@ -58,12 +58,12 @@ public class ClassInfo  {
     	return tableArray.get(index)[0];
     }
     
-    public String getType(int index) {
-    	return tableArray.get(index)[1];
+    public void getType(int index) {
+    	
     }
     
-    public String getAccess(int index) {
-    	return tableArray.get(index)[2];
+    public void getAccess(int index) {
+    	
     }
     
     public boolean isAccessSpecifier(String token) {
