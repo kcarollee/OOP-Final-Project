@@ -46,11 +46,11 @@ public class ClassInfo  {
     			tableRow[2] = currentAccessSpecifier;
     			tableArray.add(tableRow);
     		}
-    		// 포인터 변수
+    		
     		else if (isPointer(declarationTokens.get(i))) {
     			String[] tableRow = new String[3];
-    			tableRow[0] = declarationTokens.get(i).substring(1); // *ptr의 *를 없애주기
-    			tableRow[1] = currentType + "*"; // int* 처럼 어떤 형식의 포인터인지 알려줌 
+    			tableRow[0] = declarationTokens.get(i).substring(1);
+    			tableRow[1] = currentType + "*";
     			tableRow[2] = currentAccessSpecifier;
     			tableArray.add(tableRow);
     		}

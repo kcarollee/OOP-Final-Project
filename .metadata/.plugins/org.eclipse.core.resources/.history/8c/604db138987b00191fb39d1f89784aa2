@@ -19,7 +19,6 @@ public class ClassInfo  {
         this.declarationTokens = declarationTokens;
         className = declarationTokens.get(1);
         processTokens();
-        addMembersToList();
     }
 
     public String getClassName(){
@@ -43,14 +42,6 @@ public class ClassInfo  {
     			currentType = "void";
     			tableRow[0] = declarationTokens.get(i);
     			tableRow[1] = currentType;
-    			tableRow[2] = currentAccessSpecifier;
-    			tableArray.add(tableRow);
-    		}
-    		// 포인터 변수
-    		else if (isPointer(declarationTokens.get(i))) {
-    			String[] tableRow = new String[3];
-    			tableRow[0] = declarationTokens.get(i).substring(1); // *ptr의 *를 없애주기
-    			tableRow[1] = currentType + "*"; // int* 처럼 어떤 형식의 포인터인지 알려줌 
     			tableRow[2] = currentAccessSpecifier;
     			tableArray.add(tableRow);
     		}
@@ -100,34 +91,6 @@ public class ClassInfo  {
     	return false;
     }
     
-    public boolean isPointer(String token) {
-    	if (token.charAt(0) == '*') {
-    		return true;
-    	}
-    	return false;
-    }
-    
-    public void addMembersToList() {
-    	for (int i = 0; i < tableArray.size(); i++) {
-    		if (stringIsMethodName(tableArray.get(i)[0])) {
-    			continue;
-    		}
-    		else
-    			memberVariables.add(tableArray.get(i)[0]);
-    	}
-    }
-    
-    public ArrayList<String> getMemberVariables(){
-    	return memberVariables;
-    }
-    public boolean stringIsMethodName(String name) {
-    	if (name.charAt(name.length() - 2) == '(' && name.charAt(name.length() - 1) == ')') {
-    		return true;
-    	}
-    	else
-    		return false;
-    }
-    
     // testing method
     public void printTable() {
     	for (String[] row : tableArray) {
@@ -137,4 +100,6 @@ public class ClassInfo  {
     		System.out.println();
     	}
     }
+
+
 }

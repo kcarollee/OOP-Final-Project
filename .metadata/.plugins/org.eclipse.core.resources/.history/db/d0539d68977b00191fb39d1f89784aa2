@@ -124,10 +124,9 @@ public class Tokenizer {
             }
         }
     }
-    
-    // 메소드 소스 코드 표시에 쓰일 메소드. 
+
     public void processDefinitions(StringBuffer mainTextBuffer, int index){
-    	
+
     }
 
     public boolean isChar(char c){

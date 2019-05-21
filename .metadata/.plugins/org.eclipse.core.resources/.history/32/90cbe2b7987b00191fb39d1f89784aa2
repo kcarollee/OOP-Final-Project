@@ -16,9 +16,6 @@ public class MainApp {
         }
         ClassInfo c = new ClassInfo(t.getDeclarationTokens());
         c.printTable();
-        for (String i : c.getMemberVariables()) {
-        	System.out.println(i);
-        }
     }
 }
 
