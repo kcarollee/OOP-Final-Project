@@ -47,7 +47,7 @@ public class ClassInfo  {
     		else if (isConstructorOrDestructor(declarationTokens.get(i))) {
     			String[] tableRow = new String[3];
     			currentType = "void";
-    			tableRow[0] = formattedName(declarationTokens.get(i));
+    			tableRow[0] = declarationTokens.get(i);
     			tableRow[1] = currentType;
     			tableRow[2] = currentAccessSpecifier;
     			tableArray.add(tableRow);
@@ -63,7 +63,7 @@ public class ClassInfo  {
     		
     		else {
     			String[] tableRow = new String[3];
-    			tableRow[0] = formattedName(declarationTokens.get(i));
+    			tableRow[0] = declarationTokens.get(i);
     			tableRow[1] = currentType;
     			tableRow[2] = currentAccessSpecifier;
     			tableArray.add(tableRow);
@@ -72,7 +72,7 @@ public class ClassInfo  {
     	}
     }
     
-    public String formattedName(String name) {
+    public String formatName(String name) {
     	String temp = new String();
     	boolean parenthesisOpen = false;
     	for (int i = 0; i < name.length(); i++) {
@@ -83,7 +83,7 @@ public class ClassInfo  {
     		
     		else if (name.charAt(i) == ')') {
     			parenthesisOpen = false;
-    			//temp += name.charAt(i);
+    			temp += name.charAt(i);
     		}
     		if (parenthesisOpen) {
     			continue;

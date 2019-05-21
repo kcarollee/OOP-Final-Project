@@ -83,7 +83,7 @@ public class ClassInfo  {
     		
     		else if (name.charAt(i) == ')') {
     			parenthesisOpen = false;
-    			//temp += name.charAt(i);
+    			temp += name.charAt(i);
     		}
     		if (parenthesisOpen) {
     			continue;

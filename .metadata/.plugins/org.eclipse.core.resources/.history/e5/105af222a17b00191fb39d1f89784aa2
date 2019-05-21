@@ -8,11 +8,7 @@ public class ClassInfo  {
     // 0인덱스에는 메소드의 이름, 1인덱스에는 메소드의 반환형, 2인덱스에는 접근지시자가 들어갑니다. 
     public ArrayList<String[]> tableArray = new ArrayList<String[]>();
     public ArrayList<String> declarationTokens;
-    
-    // 다음 두 배열리스트들은 Tree모델 구현에 쓰입니다. 
-    public ArrayList<MethodInfo> methodList;
-    public ArrayList<VariableInfo> variableList;
-    
+    public ArrayList<MethodInfo> methodArray;
     public KeyWords keyWords = new KeyWords();
     public String currentAccessSpecifier = new String();
     public String currentType = new String();
@@ -30,8 +26,7 @@ public class ClassInfo  {
     public String getClassName(){
         return className;
     }
-    
-    // 테이블용
+
     public void processTokens(){
     	// 클래스 정의 내부부터 시작하기
     	for (int i = 2; i < declarationTokens.size(); i++) {
@@ -47,7 +42,7 @@ public class ClassInfo  {
     		else if (isConstructorOrDestructor(declarationTokens.get(i))) {
     			String[] tableRow = new String[3];
     			currentType = "void";
-    			tableRow[0] = formattedName(declarationTokens.get(i));
+    			tableRow[0] = declarationTokens.get(i);
     			tableRow[1] = currentType;
     			tableRow[2] = currentAccessSpecifier;
     			tableArray.add(tableRow);
@@ -63,35 +58,13 @@ public class ClassInfo  {
     		
     		else {
     			String[] tableRow = new String[3];
-    			tableRow[0] = formattedName(declarationTokens.get(i));
+    			tableRow[0] = declarationTokens.get(i);
     			tableRow[1] = currentType;
     			tableRow[2] = currentAccessSpecifier;
     			tableArray.add(tableRow);
     			
     		}
     	}
-    }
-    
-    public String formattedName(String name) {
-    	String temp = new String();
-    	boolean parenthesisOpen = false;
-    	for (int i = 0; i < name.length(); i++) {
-    		if (name.charAt(i) == '(') {
-    			parenthesisOpen = true;
-    			temp += name.charAt(i);
-    		}
-    		
-    		else if (name.charAt(i) == ')') {
-    			parenthesisOpen = false;
-    			//temp += name.charAt(i);
-    		}
-    		if (parenthesisOpen) {
-    			continue;
-    		}
-    		else
-    			temp += name.charAt(i);
-    	}  	
-    	return temp;
     }
     
     public String getName(int index) {

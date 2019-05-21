@@ -116,7 +116,6 @@ public class Tokenizer {
                                 	// 열림 플래그를 false로 설정
                                     parenthesisOpen = false;
                                 }
-                                // 함수가 변수를 받을때를 고려. 
                                 else {
                                 	if (isChar(mainTextBuffer.charAt(i))) {
                                 		if (!isTypeKeyWord(temp2)){

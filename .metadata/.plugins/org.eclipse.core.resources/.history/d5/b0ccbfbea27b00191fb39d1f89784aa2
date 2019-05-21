@@ -51,7 +51,6 @@ public class Tokenizer {
     // 이 메소드는 Table구조용에 쓰일 토크나이저입니다.
     public void processDeclarations(StringBuffer mainTextBuffer){
         String temp = "";
-        String temp2 = "";
         for (int i = 0; i < mainTextBuffer.length(); i++){
             if (mainTextBuffer.charAt(i) == '{'){
                 bracketNum++;
@@ -116,17 +115,7 @@ public class Tokenizer {
                                 	// 열림 플래그를 false로 설정
                                     parenthesisOpen = false;
                                 }
-                                // 함수가 변수를 받을때를 고려. 
                                 else {
-                                	if (isChar(mainTextBuffer.charAt(i))) {
-                                		if (!isTypeKeyWord(temp2)){
-                                			temp2 += mainTextBuffer.charAt(i);
-                                		}
-                                		else {
-                                			temp += temp2;
-                                			temp2 = "";
-                                		}
-                                	}
                                 	index++;
                                 	// 괄호가 닫힐때까지 무시하기.
                                     continue;
