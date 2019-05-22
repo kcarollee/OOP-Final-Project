@@ -206,7 +206,8 @@ public class Tokenizer {
         String temp2 = "";
         String temp3 = ""; // used for method information tokens: split by \r
     	for (int i = index; i < mainTextBuffer.length(); i++) {
-    		
+    		//////////////////
+    		System.out.print(mainTextBuffer.charAt(i));
     		 if ((mainTextBuffer.charAt(i) == '/' && mainTextBuffer.charAt(i + 1) == '/')) {
              
              	commentMode = true;
@@ -279,8 +280,11 @@ public class Tokenizer {
                                                        
                              else {
                             	 if (!methodNameParsed) {
-                            		 if (mainTextBuffer.charAt(i) == ' ') {                               	                                 	
-                            			 definitionTokens.add(temp);                 
+                            		 if (mainTextBuffer.charAt(i) == ' ') {                               	
+                                 	
+                                 	
+                            			 definitionTokens.add(temp);
+                            			 //gettingMethodName = false;
                             			 temp = "";
                             		 }  
                             	 }
@@ -299,6 +303,7 @@ public class Tokenizer {
                          }
                      }
             	 }
+            	 ////////////////////////////////////////////////////////////
             	 // not getting methodName -> look for opening bracket
             	 else {
             		 

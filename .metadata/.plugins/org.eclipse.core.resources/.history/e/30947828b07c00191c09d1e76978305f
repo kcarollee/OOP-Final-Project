@@ -12,7 +12,7 @@ public class ClassInfo  {
     
     // 다음 두 배열리스트들은 Tree모델 구현에 쓰입니다. 
     public ArrayList<MethodInfo> methodList = new ArrayList<MethodInfo>();
-    public ArrayList<VariableInfo> variableList = new ArrayList<VariableInfo>();
+    public ArrayList<VariableInfo> variableList;
     
     public KeyWords keyWords = new KeyWords();
     public String currentAccessSpecifier = new String();
@@ -26,7 +26,6 @@ public class ClassInfo  {
         this.definitionTokens = definitionTokens;
         className = declarationTokens.get(1);
         processDeclarationTokens();
-        processDefinitionTokens();
         addMembersToList();
     }
 
@@ -167,7 +166,7 @@ public class ClassInfo  {
     		return false;
     }
     
-    // testing table
+    // testing method
     public void printTable() {
     	for (String[] row : tableArray) {
     		for (int i = 0; i < row.length; i++) {

@@ -26,7 +26,6 @@ public class ClassInfo  {
         this.definitionTokens = definitionTokens;
         className = declarationTokens.get(1);
         processDeclarationTokens();
-        processDefinitionTokens();
         addMembersToList();
     }
 
@@ -167,7 +166,7 @@ public class ClassInfo  {
     		return false;
     }
     
-    // testing table
+    // testing method
     public void printTable() {
     	for (String[] row : tableArray) {
     		for (int i = 0; i < row.length; i++) {
@@ -179,6 +178,7 @@ public class ClassInfo  {
     
     // testing methodInfo
     public void printMethods() {
+    	System.out.println(methodList.size());
     	for (MethodInfo m : methodList) {
     		System.out.println("------------------Method Name-------------------");
     		System.out.println(m.getName());

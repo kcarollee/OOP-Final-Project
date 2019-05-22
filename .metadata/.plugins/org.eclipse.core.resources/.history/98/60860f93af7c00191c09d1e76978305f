@@ -17,11 +17,11 @@ public class MethodInfo {
 		
 	}
 	
-	public String getMethodContents() {
+	public String showMethodContents() {
 		return methodContents;
 	}
 	
-	public String getName() {
+	public String showName() {
 		return name;
 	}
 }

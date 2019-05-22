@@ -10,19 +10,10 @@ public class MethodInfo {
 	public MethodInfo(String name, String methodContents) {
 		this.name = name;
 		this.methodContents = methodContents;
-		formatMethodContents();
 	}
 	
-	public void formatMethodContents() {
+	public void formatExpressions() {
 		
-	}
-	
-	public String getMethodContents() {
-		return methodContents;
-	}
-	
-	public String getName() {
-		return name;
 	}
 }
 

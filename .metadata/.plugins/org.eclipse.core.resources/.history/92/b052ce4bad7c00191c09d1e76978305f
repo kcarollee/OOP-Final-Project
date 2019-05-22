@@ -279,8 +279,11 @@ public class Tokenizer {
                                                        
                              else {
                             	 if (!methodNameParsed) {
-                            		 if (mainTextBuffer.charAt(i) == ' ') {                               	                                 	
-                            			 definitionTokens.add(temp);                 
+                            		 if (mainTextBuffer.charAt(i) == ' ') {                               	
+                                 	
+                                 	
+                            			 definitionTokens.add(temp);
+                            			 //gettingMethodName = false;
                             			 temp = "";
                             		 }  
                             	 }
@@ -299,6 +302,7 @@ public class Tokenizer {
                          }
                      }
             	 }
+            	 ////////////////////////////////////////////////////////////
             	 // not getting methodName -> look for opening bracket
             	 else {
             		 

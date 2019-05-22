@@ -8,11 +8,10 @@ public class ClassInfo  {
     // 0인덱스에는 메소드의 이름, 1인덱스에는 메소드의 반환형, 2인덱스에는 접근지시자가 들어갑니다. 
     public ArrayList<String[]> tableArray = new ArrayList<String[]>();
     public ArrayList<String> declarationTokens;
-    public ArrayList<String> definitionTokens;
     
     // 다음 두 배열리스트들은 Tree모델 구현에 쓰입니다. 
-    public ArrayList<MethodInfo> methodList = new ArrayList<MethodInfo>();
-    public ArrayList<VariableInfo> variableList = new ArrayList<VariableInfo>();
+    public ArrayList<MethodInfo> methodList;
+    public ArrayList<VariableInfo> variableList;
     
     public KeyWords keyWords = new KeyWords();
     public String currentAccessSpecifier = new String();
@@ -21,12 +20,10 @@ public class ClassInfo  {
     // MethodInfo에 쓰일 멤버 변수의 리스트입니다. 
     public ArrayList<String> memberVariables = new ArrayList<String>();
     
-    public ClassInfo(ArrayList<String> declarationTokens, ArrayList<String> definitionTokens){
+    public ClassInfo(ArrayList<String> declarationTokens){
         this.declarationTokens = declarationTokens;
-        this.definitionTokens = definitionTokens;
         className = declarationTokens.get(1);
-        processDeclarationTokens();
-        processDefinitionTokens();
+        processTokens();
         addMembersToList();
     }
 
@@ -35,7 +32,7 @@ public class ClassInfo  {
     }
     
     // 테이블용
-    public void processDeclarationTokens(){
+    public void processTokens(){
     	// 클래스 정의 내부부터 시작하기
     	for (int i = 2; i < declarationTokens.size(); i++) {
     		
@@ -72,14 +69,6 @@ public class ClassInfo  {
     			tableArray.add(tableRow);
     			
     		}
-    	}
-    }
-    // 트리 및 메소드 선택용
-    public void processDefinitionTokens() {
-    	for (int i = 0; i < definitionTokens.size(); i += 2) {
-    		// i가 짝수일 경우 메소드 이름, 홀수일 경우 메소드 내용. 
-    		MethodInfo method = new MethodInfo(definitionTokens.get(i), definitionTokens.get(i + 1));
-    		methodList.add(method);
     	}
     }
     
@@ -167,23 +156,13 @@ public class ClassInfo  {
     		return false;
     }
     
-    // testing table
+    // testing method
     public void printTable() {
     	for (String[] row : tableArray) {
     		for (int i = 0; i < row.length; i++) {
     			System.out.print(row[i] + " ");
     		}
     		System.out.println();
-    	}
-    }
-    
-    // testing methodInfo
-    public void printMethods() {
-    	for (MethodInfo m : methodList) {
-    		System.out.println("------------------Method Name-------------------");
-    		System.out.println(m.getName());
-    		System.out.println("----------------Method Contents-----------------");
-    		System.out.println(m.getMethodContents());
     	}
     }
 }

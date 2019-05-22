@@ -15,7 +15,7 @@ public class MainApp extends JFrame{
         for (String i : t.getDeclarationTokens()){
             System.out.println(i);
         }
-        ClassInfo c = new ClassInfo(t.getDeclarationTokens(), t.getDefinitionTokens());
+        ClassInfo c = new ClassInfo(t.getDeclarationTokens());
         System.out.println("---------------------Testing table------------------------------");
         c.printTable();
         System.out.println("---------------------Testing member variables-------------------");
@@ -27,9 +27,6 @@ public class MainApp extends JFrame{
             System.out.println(i);
             System.out.println("-------------------------------------------------------------");
         }
-        
-        System.out.println("---------------------Testing methodInfo--------------------------");
-        c.printMethods();
     }
 }
 

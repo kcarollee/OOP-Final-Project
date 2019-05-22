@@ -16,13 +16,5 @@ public class MethodInfo {
 	public void formatMethodContents() {
 		
 	}
-	
-	public String getMethodContents() {
-		return methodContents;
-	}
-	
-	public String getName() {
-		return name;
-	}
 }
 
