@@ -25,7 +25,6 @@ public class MainApp extends JFrame{
         System.out.println("---------------------Testing definition tokens------------------");
         for (String i : t.getDefinitionTokens()){
             System.out.println(i);
-            System.out.println("-------------------------------------------------------------");
         }
     }
 }

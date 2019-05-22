@@ -208,7 +208,6 @@ public class Tokenizer {
     	commentMode = false;
     	boolean blockInitiated = false;
     	boolean gettingMethodName = false;
-    	boolean methodNameParsed = false; 
     	String temp = "";
         String temp2 = "";
         String temp3 = ""; // used for method information tokens: split by \r
@@ -258,7 +257,6 @@ public class Tokenizer {
                              	temp += mainTextBuffer.charAt(i);
                              	// 열림 플래그를 false로 설정
                                  parenthesisOpen = false;
-                                 methodNameParsed = true;
                              }
                              // 함수가 변수를 받을때를 고려. 
                              else {
@@ -286,25 +284,24 @@ public class Tokenizer {
                              }
                                                        
                              else {
-                            	 if (!methodNameParsed) {
-                            		 if (mainTextBuffer.charAt(i) == ' ') {                               	
+                                 if (mainTextBuffer.charAt(i) == ' ') {                               	
                                  	
                                  	
-                            			 definitionTokens.add(temp);
-                            			 //gettingMethodName = false;
-                            			 temp = "";
-                            		 }  
-                            	 }
-                                 else {
-                                	 if (mainTextBuffer.charAt(i) == '{' && !blockInitiated) {
-                                		 definitionTokens.add(temp);
-                                		 gettingMethodName = false;
-                                		 temp = "";
+                                    definitionTokens.add(temp);
+                                    gettingMethodName = false;
+                                    temp = "";
+                                 }  
+                                 
+                                 else if (mainTextBuffer.charAt(i) == '{' && !blockInitiated) {
+                                	 definitionTokens.add(temp);
+                                     gettingMethodName = false;
+                                     temp = "";
                                      
-                                		 gettingMethodName = false;
-                                		 blockInitiated = true;	
-                                		 bracketStack.addBracket(mainTextBuffer.charAt(i));      
-                                	 }
+                                	 gettingMethodName = false;
+                        			 blockInitiated = true;	
+                        			 bracketStack.addBracket(mainTextBuffer.charAt(i));
+                        		
+                        			
                         	 	 }
                              }
                          }
@@ -317,7 +314,8 @@ public class Tokenizer {
             		 if (blockInitiated) { 
             			 if (mainTextBuffer.charAt(i) == '{' || mainTextBuffer.charAt(i) == '}') {
             				 bracketStack.addBracket(mainTextBuffer.charAt(i));
-            				 if (bracketStack.bracketClosed()) {            					 
+            				 if (bracketStack.bracketClosed()) {
+            					 
             					 bracketStack.clear();
             					 definitionTokens.add(temp3);
             					 temp3 = "";
@@ -331,7 +329,8 @@ public class Tokenizer {
             				 temp3 += mainTextBuffer.charAt(i);
             			 }
             		 }
-            		 else {            			
+            		 else {
+            			
             			 continue;
             		 }
             	 }

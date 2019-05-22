@@ -9,7 +9,7 @@ public class MainApp extends JFrame{
     	
     }
     public static void main(String[] args){
-        Parser p = new Parser("bin\\Stack.h");
+        Parser p = new Parser("C:\\Users\\kcaro\\OneDrive\\Documents\\2019_1ÇÐ±â\\°´Ã¼_2019\\finalProject\\headerFileViewer\\bin\\Stack.h");
         Tokenizer t = new Tokenizer(p.getTextBuffer());
         System.out.println("---------------------Testing declaration tokens-----------------");
         for (String i : t.getDeclarationTokens()){
@@ -25,7 +25,6 @@ public class MainApp extends JFrame{
         System.out.println("---------------------Testing definition tokens------------------");
         for (String i : t.getDefinitionTokens()){
             System.out.println(i);
-            System.out.println("-------------------------------------------------------------");
         }
     }
 }
