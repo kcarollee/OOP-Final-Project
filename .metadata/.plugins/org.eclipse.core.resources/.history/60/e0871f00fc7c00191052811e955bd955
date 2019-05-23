@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public class MethodInfo extends Tokenizer {
 	public String name;
-	public ArrayList<String> pureStringTokens = new ArrayList<String>();
-	public ArrayList<String> memberVariables = new ArrayList<String>();
+	public ArrayList<String> pureStringTokens;
+	public ArrayList<String> memberVariables;
 	public String methodContents;
 	
 	public MethodInfo(String name, String methodContents) {
@@ -19,7 +19,7 @@ public class MethodInfo extends Tokenizer {
 		
 	}
 	
-	// 일반적인 토크나이저입니다. 순수 스트링을 받음.
+	 // 일반적인 토크나이저입니다. 순수 스트링을 받음.
     // 메스드가 사용하는 변수를 알아낼때 사용하기. 
     public void processTextBuffer(String mainTextBuffer){
         String temp = "";

@@ -28,8 +28,7 @@ void Stack::push(int v){
                Stack          ::         Stack(int  a)                     {
                     size = s > 0 ? s : 10;
                  top = -1;
-              ptr = new int[size];
-               }
+              ptr = new int[size];}
 
 
 int Stack::pop(              )      {

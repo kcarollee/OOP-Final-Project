@@ -184,8 +184,6 @@ public class ClassInfo  {
     		System.out.println(m.getName());
     		System.out.println("----------------Method Contents-----------------");
     		System.out.println(m.getMethodContents());
-    		System.out.println("-----------------Method Tokens---------------------");
-    		m.showPureStringTokens();
     	}
     }
 }

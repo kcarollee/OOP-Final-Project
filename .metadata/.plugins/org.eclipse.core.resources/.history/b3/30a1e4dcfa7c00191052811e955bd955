@@ -46,14 +46,14 @@ public class Tokenizer {
     
     public BracketStack bracketStack = new BracketStack();
     
-    
-    public Tokenizer() {
-    }
-    
     public Tokenizer(StringBuffer mainTextBuffer){
         processDeclarations(mainTextBuffer);
         processDefinitions(mainTextBuffer);
-    } 
+    }
+
+   
+    
+    
     
    
     // 이 메소드는 Table구조용에 쓰일 토크나이저입니다.
@@ -337,7 +337,9 @@ public class Tokenizer {
         return false;
     }
 
-    
+    public ArrayList<String> getTokens(){
+        return mainTextTokens;
+    }
 
     public ArrayList<String> getDeclarationTokens(){
         return declarationTokens;
