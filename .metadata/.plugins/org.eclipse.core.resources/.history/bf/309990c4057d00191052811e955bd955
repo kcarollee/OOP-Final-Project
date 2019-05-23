@@ -163,24 +163,14 @@ public class ClassInfo  {
     
     public void compareMethodTokensWithMemberVariables(MethodInfo method) {
     	
-    	boolean[] memberAdded = new boolean[memberVariables.size()];
-    	for (int i = 0; i < memberVariables.size(); i++) {
-    		memberAdded[i] = false;
-    	}
     	
     	for (int i = 0; i < memberVariables.size(); i++) {
     		for (int j = 0; j < method.getPureStringTokens().size(); j++) {
     			
     			
     			if (memberVariables.get(i).equals(method.getPureStringTokens().get(j))) {
+    				method.addToMemberVariables(memberVariables.get(i));
     				
-    				if (memberAdded[i]) {
-    					continue;
-    				}
-    				else {
-    					method.addToMemberVariables(memberVariables.get(i));
-        				memberAdded[i] = true;
-    				}
     			}
     			
     		}

@@ -49,10 +49,6 @@ public class MethodInfo extends Tokenizer {
             }
         }        
     }
-    
-    public ArrayList<String> getPureStringTokens(){
-    	return pureStringTokens;
-    }
 	
 	public String getMethodContents() {
 		return methodContents;

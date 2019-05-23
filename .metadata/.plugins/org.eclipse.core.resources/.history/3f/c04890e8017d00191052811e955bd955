@@ -28,6 +28,7 @@ public class ClassInfo  {
         processDeclarationTokens();
         addMembersToList();
         processDefinitionTokens();
+        
     }
 
     public String getClassName(){
@@ -80,7 +81,6 @@ public class ClassInfo  {
     		// i가 짝수일 경우 메소드 이름, 홀수일 경우 메소드 내용. 
     		MethodInfo method = new MethodInfo(definitionTokens.get(i), definitionTokens.get(i + 1));
     		methodList.add(method);
-    		compareMethodTokensWithMemberVariables(method);
     	}
     }
     
@@ -161,32 +161,14 @@ public class ClassInfo  {
     	return memberVariables;
     }
     
-    public void compareMethodTokensWithMemberVariables(MethodInfo method) {
-    	
-    	boolean[] memberAdded = new boolean[memberVariables.size()];
-    	for (int i = 0; i < memberVariables.size(); i++) {
-    		memberAdded[i] = false;
-    	}
-    	
+    public void compare(MethodInfo method) {
     	for (int i = 0; i < memberVariables.size(); i++) {
     		for (int j = 0; j < method.getPureStringTokens().size(); j++) {
-    			
-    			
     			if (memberVariables.get(i).equals(method.getPureStringTokens().get(j))) {
-    				
-    				if (memberAdded[i]) {
-    					continue;
-    				}
-    				else {
-    					method.addToMemberVariables(memberVariables.get(i));
-        				memberAdded[i] = true;
-    				}
+    				method.addToMemberVariables(memberVariables.get(i));
     			}
-    			
     		}
     	}
-    	
-    	
     }
     public boolean stringIsMethodName(String name) {
     	if (name.charAt(name.length() - 2) == '(' && name.charAt(name.length() - 1) == ')') {
@@ -215,8 +197,6 @@ public class ClassInfo  {
     		System.out.println(m.getMethodContents());
     		System.out.println("-----------------Method Tokens---------------------");
     		m.showPureStringTokens();
-    		System.out.println("------------Method's Member Variables--------------");
-    		m.showUsedMemberVariables();
     	}
     }
 }

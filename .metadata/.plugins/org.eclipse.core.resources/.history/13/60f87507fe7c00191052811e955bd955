@@ -39,19 +39,12 @@ public class MethodInfo extends Tokenizer {
                     temp += mainTextBuffer.charAt(i);
                     noChar = true;
                 }
-                else {
-                    if (noChar) {
-                        noChar = false;
-                        pureStringTokens.add(temp);
-                        temp = "";
-                    }
+                else if (mainTextBuffer.charAt(i) == ' '){
+                    pureStringTokens.add(temp);
+                    temp = "";
                 }
             }
         }        
-    }
-    
-    public ArrayList<String> getPureStringTokens(){
-    	return pureStringTokens;
     }
 	
 	public String getMethodContents() {
@@ -62,19 +55,10 @@ public class MethodInfo extends Tokenizer {
 		return name;
 	}
 	
-	// used in conjunction with comparing methods in ClassInfo
-	public void addToMemberVariables(String variable) {
-		memberVariables.add(variable);
-	}
-	
-	public void showUsedMemberVariables() {
-		for (String s : memberVariables) {
-			System.out.println(s);
-		}
-	}
 	public void showPureStringTokens() {
 		for (String i : pureStringTokens) {
 			System.out.println(i);
 		}
 	}
 }
+
