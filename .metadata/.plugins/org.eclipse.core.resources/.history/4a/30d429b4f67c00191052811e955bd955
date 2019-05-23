@@ -132,8 +132,7 @@ public class Tokenizer {
                         		definitionTokens.add(temp);
                         		addedToDefinitionTokens = true;
                         	}
-                        	if (mainTextBuffer.charAt(i) != '{')
-                        		methodContentWithin += mainTextBuffer.charAt(i);
+                        	methodContentWithin += mainTextBuffer.charAt(i);
                         	continue;
                         }
                         else {

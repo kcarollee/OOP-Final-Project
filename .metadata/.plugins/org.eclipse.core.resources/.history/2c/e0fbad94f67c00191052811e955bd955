@@ -90,7 +90,7 @@ public class Tokenizer {
         String temp = "";
         String temp2 = "";
         String methodContentWithin = "";
-        boolean addedToDefinitionTokens = false;
+        boolean methodContentAdded = false;
         for (int i = 0; i < mainTextBuffer.length(); i++){
             if (mainTextBuffer.charAt(i) == '{'){
                 bracketNum++;
@@ -128,17 +128,16 @@ public class Tokenizer {
                     if (bracketNum > 1){
                         if (mainTextBuffer.charAt(i) != '}') {
                         	index++;
-                        	if (!addedToDefinitionTokens) {
+                        	if (!methodContentAdded) {
                         		definitionTokens.add(temp);
-                        		addedToDefinitionTokens = true;
+                        		methodContentAdded = true;
                         	}
-                        	if (mainTextBuffer.charAt(i) != '{')
-                        		methodContentWithin += mainTextBuffer.charAt(i);
+                        	//methodContentWithin += mainTextBuffer.charAt(i);
                         	continue;
                         }
                         else {
-                        	definitionTokens.add(methodContentWithin);
-                        	methodContentWithin = "";
+                        	//definitionTokens.add(methodContentWithin);
+                        	//methodContentWithin = "";
                         	index++;
                             bracketNum--;
                         }
