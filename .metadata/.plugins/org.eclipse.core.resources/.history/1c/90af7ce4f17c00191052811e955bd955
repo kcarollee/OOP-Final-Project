@@ -47,7 +47,7 @@ public class ClassInfo  {
     			currentType = declarationTokens.get(i);
     		}
     		
-    		else if (isConstructorOrDestructor(formattedName(declarationTokens.get(i)))) {
+    		else if (isConstructorOrDestructor(declarationTokens.get(i))) {
     			String[] tableRow = new String[3];
     			currentType = "void";
     			tableRow[0] = formattedName(declarationTokens.get(i));

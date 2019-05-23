@@ -127,13 +127,13 @@ public class Tokenizer {
                     if (bracketNum > 1){
                         if (mainTextBuffer.charAt(i) != '}') {
                         	index++;
-                        	//definitionTokens.add(temp);
-                        	//methodContentWithin += mainTextBuffer.charAt(i);
+                        	definitionTokens.add(temp);
+                        	methodContentWithin += mainTextBuffer.charAt(i);
                         	continue;
                         }
                         else {
-                        	//definitionTokens.add(methodContentWithin);
-                        	//methodContentWithin = "";
+                        	definitionTokens.add(methodContentWithin);
+                        	methodContentWithin = "";
                         	index++;
                             bracketNum--;
                         }

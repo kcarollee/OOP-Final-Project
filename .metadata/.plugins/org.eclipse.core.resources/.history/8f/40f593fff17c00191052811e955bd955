@@ -82,14 +82,11 @@ public class Tokenizer {
             }
         }
     }
-    
-    
-   
+
     // 이 메소드는 Table구조용에 쓰일 토크나이저입니다.
     public void processDeclarations(StringBuffer mainTextBuffer){
         String temp = "";
         String temp2 = "";
-        String methodContentWithin = "";
         for (int i = 0; i < mainTextBuffer.length(); i++){
             if (mainTextBuffer.charAt(i) == '{'){
                 bracketNum++;
@@ -123,17 +120,13 @@ public class Tokenizer {
                 // 주석이 아니라면
                 else {
                     // 대괄호 처리. 첫번째 대괄호는 꼭 필요. 두번째 대괄호가
-                    // 열리면 메소드 내용 스트링에 넣기 
+                    // 열ㄹ리
                     if (bracketNum > 1){
                         if (mainTextBuffer.charAt(i) != '}') {
                         	index++;
-                        	//definitionTokens.add(temp);
-                        	//methodContentWithin += mainTextBuffer.charAt(i);
                         	continue;
                         }
                         else {
-                        	//definitionTokens.add(methodContentWithin);
-                        	//methodContentWithin = "";
                         	index++;
                             bracketNum--;
                         }
