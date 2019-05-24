@@ -18,14 +18,6 @@ public class MethodInfo extends Tokenizer {
 	public void formatMethodContents() {
 		boolean ifLoopActivated = false;
 		boolean firstCharacterInLine = false;
-		// loop through method content string
-		for (int i = 0; i < methodContents.length(); i++) {
-			if (methodContents.charAt(i) == 'i' && methodContents.charAt(i + 1) == 'f') {
-				ifLoopActivated = true;
-			}
-			
-			
-		}
 	}
 	
 	// 일반적인 토크나이저입니다. 순수 스트링을 받음.

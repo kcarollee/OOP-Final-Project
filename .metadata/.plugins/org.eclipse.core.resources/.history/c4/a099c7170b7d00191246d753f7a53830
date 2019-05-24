@@ -28,5 +28,5 @@ public class Parser {
     public StringBuffer getTextBuffer(){
         return mainTextBuffer;
     }
-
+//안녕하세요
 }

@@ -191,6 +191,7 @@ public class Tokenizer {
     	for (int i = index; i < mainTextBuffer.length(); i++) {
     		
     		 if ((mainTextBuffer.charAt(i) == '/' && mainTextBuffer.charAt(i + 1) == '/')) {
+             
              	commentMode = true;
              }
              // 주석이라면

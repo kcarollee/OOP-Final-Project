@@ -1,14 +1,14 @@
 class Stack{
 public:
     Stack(int s  = 10); //default constructor (stack size 10)
-    ~Stack(){delete[] ptr} // destructor
+    ~Stack(){delete[] ptr } // destructor
     void push(int v); // push an element onto the stack
     int pop(); // pop an element off the stack
 protected:
     bool isEmpty(); // determine whether Stack is empty
     bool isFull(); // determine whether Stack is full
 private:
-    int size; // # of elements in the stack
+    int size; // # of elements in the stacks
     int top; // location of the top element
     int *ptr // pointer to the stack
 }; 
@@ -35,8 +35,7 @@ int Stack::pop(              )      {
                    if (!isEmpty()){
                 return ptr[top--];
              }
-         exit(1);
-}
+         exit(1);}
 
 bool         Stack::isFull     (){
                    if (top >= size - 1) return true;

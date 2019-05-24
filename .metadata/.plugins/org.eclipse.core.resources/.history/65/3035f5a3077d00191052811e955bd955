@@ -7,7 +7,7 @@ public class KeyWords {
     public String[] getAccessSpecifiers(){
         return AccessSpecifiers;
     }
-   
+
     public String[] getTypes(){
         return Types;
     }

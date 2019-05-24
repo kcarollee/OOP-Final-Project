@@ -20,10 +20,6 @@ public class MethodInfo extends Tokenizer {
 		boolean firstCharacterInLine = false;
 		// loop through method content string
 		for (int i = 0; i < methodContents.length(); i++) {
-			if (methodContents.charAt(i) == 'i' && methodContents.charAt(i + 1) == 'f') {
-				ifLoopActivated = true;
-			}
-			
 			
 		}
 	}
