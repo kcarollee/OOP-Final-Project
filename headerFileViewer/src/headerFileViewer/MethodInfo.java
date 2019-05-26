@@ -16,16 +16,57 @@ public class MethodInfo extends Tokenizer {
 	}
 	
 	public void formatMethodContents() {
-		boolean ifLoopActivated = false;
-		boolean firstCharacterInLine = false;
-		// loop through method content string
+		// each token is a single line of code from a method definition.
+		ArrayList<String> methodSplitByNewLine = new ArrayList<String>();
+		String temp = "";
+		
+		// iterate through method definition by character
+		// THIS NEEDS TO BE FIXED
 		for (int i = 0; i < methodContents.length(); i++) {
-			if (methodContents.charAt(i) == 'i' && methodContents.charAt(i + 1) == 'f') {
-				ifLoopActivated = true;
+			if (methodContents.charAt(i) == '\r' || methodContents.charAt(i) == '\n' || 
+					i == methodContents.length() - 1) {
+				if (!temp.equals("")) {
+					methodSplitByNewLine.add(temp);
+					temp = "";
+				}
 			}
-			
-			
+			else {
+				temp += methodContents.charAt(i);
+			}
 		}
+		
+		for (int i = 0; i < methodSplitByNewLine.size(); i++) {
+			System.out.println(methodSplitByNewLine.get(i));
+		}
+		
+		
+		
+		for (int i = 0; i < methodSplitByNewLine.size(); i++) {
+			boolean bracketOpened = false;
+			int firstNonSpaceChar = 0;
+			while (methodSplitByNewLine.get(i).charAt(firstNonSpaceChar++) == ' ') {
+				
+			}
+			// check if the previous line contains an opening bracket 
+			if (i > 0) {
+				for (int j = 0; j < methodSplitByNewLine.get(i - 1).length(); j++) {
+					if ( methodSplitByNewLine.get(i - 1).charAt(j) == '{') {
+						bracketOpened = true;
+					}
+					if (bracketOpened && methodSplitByNewLine.get(i - 1).charAt(j) == '}')
+						bracketOpened = false;
+				}
+			}
+			if (bracketOpened) // add 4 spaces
+				methodSplitByNewLine.set(i, "    ".concat(methodSplitByNewLine.get(i).substring(firstNonSpaceChar - 1)));			
+			else // add no spaces
+				methodSplitByNewLine.set(i, methodSplitByNewLine.get(i).substring(firstNonSpaceChar - 1));
+		}
+		System.out.println("TEST");
+		for (String s : methodSplitByNewLine) {
+			System.out.println(s);
+		}
+		System.out.println("TESTOVER");
 	}
 	
 	// 일반적인 토크나이저입니다. 순수 스트링을 받음.
