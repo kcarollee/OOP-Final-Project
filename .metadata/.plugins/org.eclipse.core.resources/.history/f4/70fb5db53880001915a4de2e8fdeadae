@@ -16,38 +16,21 @@ public class MethodInfo extends Tokenizer {
 	}
 	
 	public void formatMethodContents() {
-		
-		
-		
+		// each token is a single line of code from a method definition.
+		ArrayList<String> methodSplitByNewLine = new ArrayList<String>();
+		String temp = "";
 		
 		System.out.println("INITIAL TEST");
 		for (int i = 0; i < methodContents.length(); i++) {
-			
-			if (methodContents.charAt(i) == '\r')
-				System.out.print("X");
-			else if (i == methodContents.length() - 1) {
-				System.out.print("L");
-			}
-			else
-				System.out.print(methodContents.charAt(i));
+			System.out.print(methodContents.charAt(i));
 		}
 		System.out.println();
 		System.out.println("INITIAL TEST OVER");
 		
-		
-		// each token is a single line of code from a method definition.
-		ArrayList<String> methodSplitByNewLine = new ArrayList<String>();
-		
-		String temp = "";
 		// iterate through method definition by character
 		for (int i = 0; i < methodContents.length(); i++) {
 			if (methodContents.charAt(i) == '\r' || methodContents.charAt(i) == '\n' || 
-					(i == methodContents.length() - 1)) {
-				if (methodContents.charAt(i) == ';') {
-					temp += methodContents.charAt(i);
-					methodSplitByNewLine.add(temp);
-					temp = "";
-				}
+					i == methodContents.length() - 1) {
 				if (!temp.equals("")) {
 					methodSplitByNewLine.add(temp);
 					temp = "";
@@ -59,7 +42,6 @@ public class MethodInfo extends Tokenizer {
 		}
 		
 		System.out.println("SECOND TEST");
-		System.out.println(methodSplitByNewLine.size());
 		for (int i = 0; i < methodSplitByNewLine.size(); i++) {
 			System.out.println(methodSplitByNewLine.get(i));
 		}

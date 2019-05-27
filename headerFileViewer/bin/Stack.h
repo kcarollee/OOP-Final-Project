@@ -1,7 +1,7 @@
 class Stack{
 public:
     Stack(int s  = 10); //default constructor (stack size 10)
-    ~Stack(){delete[] ptr } // destructor
+    ~Stack(){delete[] ptr;} // destructor
     void push(int v); // push an element onto the stack
     int pop(); // pop an element off the stack
 protected:
