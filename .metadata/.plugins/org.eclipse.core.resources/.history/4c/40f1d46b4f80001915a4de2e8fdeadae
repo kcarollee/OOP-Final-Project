@@ -7,30 +7,12 @@ public class VariableInfo {
 	public String type;
 	public ArrayList<MethodInfo> usedMethods = new ArrayList<MethodInfo>();
 	
-	public VariableInfo(String name) {
+	public VariableInfo(String name, String type) {
 		this.name = name;
-	}
-	
-	public void addVariableType(String type) {
 		this.type = type;
 	}
 	
 	public void addToUsedMethodList(MethodInfo method) {
 		usedMethods.add(method);
 	}
-	
-	public String getName() {
-		return name;
-	}
-	
-	
-	// testing method
-	public void showUsedMethods() {
-		for (MethodInfo m : usedMethods) {
-			System.out.print(m.name + ' ');
-		}
-		System.out.println();
-	}
-	
-	
 }

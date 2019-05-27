@@ -24,13 +24,4 @@ public class VariableInfo {
 	}
 	
 	
-	// testing method
-	public void showUsedMethods() {
-		for (MethodInfo m : usedMethods) {
-			System.out.print(m.name + ' ');
-		}
-		System.out.println();
-	}
-	
-	
 }

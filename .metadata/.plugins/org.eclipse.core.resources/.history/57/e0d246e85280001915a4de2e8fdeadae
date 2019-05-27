@@ -18,19 +18,4 @@ public class VariableInfo {
 	public void addToUsedMethodList(MethodInfo method) {
 		usedMethods.add(method);
 	}
-	
-	public String getName() {
-		return name;
-	}
-	
-	
-	// testing method
-	public void showUsedMethods() {
-		for (MethodInfo m : usedMethods) {
-			System.out.print(m.name + ' ');
-		}
-		System.out.println();
-	}
-	
-	
 }

@@ -30,8 +30,6 @@ public class MainApp extends JFrame{
         
         System.out.println("---------------------Testing methodInfo--------------------------");
         c.printMethods();
-        System.out.println("------------------Testing VariableInfo---------------------------");
-        c.printVariables();
     }
 }
 

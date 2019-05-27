@@ -9,8 +9,7 @@ public class MethodInfo extends Tokenizer {
 	public String methodContents;
 	
 	// each token is a single line of code from a method definition.
-	// this is what we'll ultimately use. 
-	public ArrayList<String> methodSplitByNewLine = new ArrayList<String>();
+	ArrayList<String> methodSplitByNewLine = new ArrayList<String>();
 	
 	public MethodInfo(String name, String methodContents) {
 		this.name = name;
@@ -20,7 +19,10 @@ public class MethodInfo extends Tokenizer {
 	}
 	
 	public void formatMethodContents() {
-			
+		
+		
+		
+		
 		System.out.println("INITIAL TEST");
 		for (int i = 0; i < methodContents.length(); i++) {
 			
@@ -149,12 +151,6 @@ public class MethodInfo extends Tokenizer {
 	}
 	public void showPureStringTokens() {
 		for (String i : pureStringTokens) {
-			System.out.println(i);
-		}
-	}
-	
-	public void showMethodContents() {
-		for (String i : methodSplitByNewLine) {
 			System.out.println(i);
 		}
 	}

@@ -29,7 +29,7 @@ public class ClassInfo  {
         addMembersToList();
         processDefinitionTokens();
         addVariableInfo();
-        addMethodsToVariableInfo();
+        addMethodsToVariableInfo()
     }
 
     public String getClassName(){
@@ -215,29 +215,11 @@ public class ClassInfo  {
     	
     }
     public boolean stringIsMethodName(String name) {
-    	
-    	boolean hasOpeningParen = false;
-    	boolean hasClosingParen = false;
-    	
-    	for (int i = 0; i < name.length(); i++) {
-    		if (name.charAt(i) == '(')
-    			hasOpeningParen = true;
-    		if (name.charAt(i) == ')')
-    			hasClosingParen = true;
-    	}
-    	
-    	if (hasOpeningParen && hasClosingParen)
-    		return true;
-    	return false;
-    	
-    	/*
-    	
     	if (name.charAt(name.length() - 2) == '(' && name.charAt(name.length() - 1) == ')') {
     		return true;
     	}
     	else
     		return false;
-    	*/
     }
     
     // testing table
@@ -261,16 +243,6 @@ public class ClassInfo  {
     		m.showPureStringTokens();
     		System.out.println("------------Method's Member Variables--------------");
     		m.showUsedMemberVariables();
-    	}
-    }
-    
-    // testing variableInfo
-    public void printVariables() {
-    	for (VariableInfo v : variableList) {
-    		System.out.println("----------------Variable Name--------------------");
-    		System.out.println(v.getName());
-    		System.out.println("--------Methods this variable is used in---------");
-    		v.showUsedMethods();
     	}
     }
 }
