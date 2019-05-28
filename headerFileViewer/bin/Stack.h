@@ -31,18 +31,23 @@ void Stack::push(int v){
               ptr = new int[size];}
 
 
-int Stack::pop(              )      {
-                   if (!isEmpty()){
-                return ptr[top--];
-             }
-         exit(1);}
+
+
+bool      Stack::isEmpty          ()                {
+    if (top == -1) return true;
+    else return false;
+}
 
 bool         Stack::isFull     (){
                    if (top >= size - 1) return true;
     else        return false;
 }
 
-bool      Stack::isEmpty          ()                {
-    if (top == -1) return true;
-    else return false;
-}
+
+int Stack::pop(              )      {
+                   if (!isEmpty()){
+                return ptr[top--];
+             }
+         exit(1);}
+
+

@@ -1,5 +1,0 @@
-package headerFileViewer;
-
-public class MethodInfo extends ClassInfo{
-}
-

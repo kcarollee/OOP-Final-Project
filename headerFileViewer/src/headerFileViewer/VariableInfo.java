@@ -23,6 +23,10 @@ public class VariableInfo {
 		return name;
 	}
 	
+	public String getFormattedName() {
+		return name + " : " + type;
+	}
+	
 	
 	// testing method
 	public void showUsedMethods() {

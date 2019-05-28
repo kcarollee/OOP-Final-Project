@@ -135,6 +135,8 @@ public class ClassInfo  {
     	return temp;
     }
     
+    
+    
     public String getName(int index) {
     	return tableArray.get(index)[0];
     }
@@ -146,6 +148,51 @@ public class ClassInfo  {
     public String getAccess(int index) {
     	return tableArray.get(index)[2];
     }
+    
+    public String getMethodName(int index) {
+    	return methodList.get(index).getName();
+    }
+    
+    public String getVariableName(int index) {
+    	return variableList.get(index).getName();
+    }
+    
+    public String getFormattedVariableName(int index) {
+    	return variableList.get(index).getFormattedName();
+    }
+    
+    public String getFormattedMethodContents(int index) {
+    	String temp = "";
+    	for (int i = 0; i < methodList.get(index).methodSplitByNewLine.size(); i++) {
+    		temp += (methodList.get(index).methodSplitByNewLine.get(i));
+    		temp += '\r';
+    	}
+    	return temp;
+    }
+    
+    public String getVariablesUsedByMethod(int index) {
+    	String temp = "";
+    	for (int i = 0; i < methodList.get(index).memberVariables.size(); i++) {
+    		temp += (methodList.get(index).memberVariables.get(i));
+    		temp += '\r';
+    	}
+    	return temp;
+    }
+    
+    public String getMethodsThatUseVariable(int index) {
+    	String temp = "";
+    	for (int i = 0; i < variableList.get(index).usedMethods.size(); i++) {
+    		if (i == variableList.get(index).usedMethods.size() - 1)
+    			temp += (variableList.get(index).usedMethods.get(i).getName());
+    		else {
+    			temp += (variableList.get(index).usedMethods.get(i).getName());
+    			temp += ", ";
+    		}
+    	}
+    	return temp;
+    }
+    
+    
     
     public boolean isAccessSpecifier(String token) {
     	for (int k = 0; k < keyWords.getAccessSpecifiers().length; k++) {
@@ -170,7 +217,7 @@ public class ClassInfo  {
     }
     
     public boolean isPointer(String token) {
-    	if (token.charAt(0) == '*') {
+    	if (token.charAt(0) == '*') {  
     		return true;
     	}
     	return false;
@@ -240,6 +287,8 @@ public class ClassInfo  {
     	*/
     }
     
+    
+    
     // testing table
     public void printTable() {
     	for (String[] row : tableArray) {
@@ -255,7 +304,7 @@ public class ClassInfo  {
     	for (MethodInfo m : methodList) {
     		System.out.println("------------------Method Name-------------------");
     		System.out.println(m.getName());
-    		System.out.println("----------------Method Contents-----------------");
+    		System.out.println("----------------Method Contents 2-----------------");
     		m.showMethodContents();
     		System.out.println("-----------------Method Tokens---------------------");
     		m.showPureStringTokens();
