@@ -83,9 +83,6 @@ public class MainApp extends JFrame{
         System.out.println("*******************TESTING VARIABLES*****************************");
         for (int i = 0; i < 3; i++) {
         	System.out.println("Variable name at index " + i + ": " + c.getVariableName(i));
-        	System.out.println("Methods this variable is used in: ");
-        	System.out.println(c.getMethodsThatUseVariable(i));
-        	System.out.println("--------------------------------------------------------------");   
         }
         
     }

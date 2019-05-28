@@ -57,36 +57,22 @@ public class MainApp extends JFrame{
         c.printMethods();
         System.out.println("------------------Testing VariableInfo---------------------------");
         c.printVariables();
+        System.out.println(c.getFormattedMethodContents(5));
+        System.out.println(c.getVariablesUsedByMethod(5));
+        System.out.println(c.getFormattedVariableName(2));
+        System.out.println(c.getMethodsThatUseVariable(2));
         
-        
-        System.out.println("***********************FINAL TEST********************************");
-        System.out.println("********************* TESTING TABLE******************************");
+        System.out.println("-----------------------FINAL TEST--------------------------------");
+        System.out.println("----------------------TESTING TABLE------------------------------");
         for (int i = 0; i < 9; i++) {
         	System.out.println(c.getName(i) + " " + c.getType(i)+ " " + c.getAccess(i));
         }
-        System.out.println("***********************TESTING TREE******************************");
+        System.out.println("----------------------TESTING TREE------------------------------");
         System.out.println("Class Name: " + c.getClassName());
-        for (int i = 0; i < 6; i++) {
-        	System.out.println("Method Name at index " + i + ": " + c.getMethodName(i));
+        for (int i = 0; i < 5; i++) {
+        	System.out.println("Formatted Method Name on index " + i + ": " + c.getMethodName(i));
         }
-        for (int i = 0; i < 3; i++) {
-        	System.out.println("Formatted variable name at index " + i + ": " + c.getFormattedVariableName(i));
-        }
-        System.out.println("******************TESTING METHOD CONTENTS************************");
-        for (int i = 0; i < 6; i++) {
-        	System.out.println("Formatted content of method at index " + i + ": ");
-        	System.out.println(c.getFormattedMethodContents(i) + "\n");
-        	System.out.println("Variables used in method at index " + i + ": ");
-        	System.out.println(c.getVariablesUsedByMethod(i));
-        	System.out.println("--------------------------------------------------------------");    
-        }
-        System.out.println("*******************TESTING VARIABLES*****************************");
-        for (int i = 0; i < 3; i++) {
-        	System.out.println("Variable name at index " + i + ": " + c.getVariableName(i));
-        	System.out.println("Methods this variable is used in: ");
-        	System.out.println(c.getMethodsThatUseVariable(i));
-        	System.out.println("--------------------------------------------------------------");   
-        }
+        
         
     }
 }
