@@ -135,7 +135,8 @@ public class ClassInfo  {
     	return temp;
     }
     
-//----------------------------IMPORTANT GETTERS------------------------------//
+    
+    
     public String getName(int index) {
     	return tableArray.get(index)[0];
     }
@@ -191,7 +192,7 @@ public class ClassInfo  {
     	return temp;
     }
     
-//---------------------------------------------------------------------------//    
+    
     
     public boolean isAccessSpecifier(String token) {
     	for (int k = 0; k < keyWords.getAccessSpecifiers().length; k++) {
