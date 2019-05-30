@@ -48,5 +48,9 @@ int Stack::pop(              )      {
                    if (!isEmpty()){
                 return ptr[top--];
              }
+<<<<<<< HEAD
          exit(1);}
 
+=======
+         exit(1);}
+>>>>>>> 589ccbbae76b4615406e07af337041d067d64004

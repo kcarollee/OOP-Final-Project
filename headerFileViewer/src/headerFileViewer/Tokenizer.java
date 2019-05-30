@@ -12,6 +12,7 @@ public class Tokenizer {
     public boolean parenthesisOpen = false;
     public KeyWords keyWords = new KeyWords();
     
+    
     // 문법이 맞다는 가정하에서 작동되는 대괄호 스택 클래스 
     public class BracketStack{
     	private ArrayList<Character> brackets = new ArrayList<Character>();

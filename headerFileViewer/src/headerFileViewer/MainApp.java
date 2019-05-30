@@ -29,6 +29,9 @@ import java.awt.*;
  *                                                    getFormattedVariableName(int index)  트리 구조에 필요한 index번째에 있는 타입이 딸린 변수의 이름 스트링을 반환
  *                                                    getVariableName(int index)           index번째에 있는 변수의 이름 스트링을 반환
  *                                                    getMethodsThatUseVariable(int index) index번째에 있는 변수를 사용하는 메소드의 리스트를 반환
+ *                                                    
+ *                                                    getMethodCount()                     메소드의 갯수를 반환
+ *                                                    getVariableCount()                   변수의 갯수를 반환
  *////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 public class MainApp {
@@ -100,9 +103,16 @@ public class MainApp {
         	System.out.println(c.getMethodsThatUseVariable(i));
         	System.out.println("--------------------------------------------------------------");   
         }
+        System.out.println(c.getMethodCount() + " " +  c.getVariableCount());
         
     }
+<<<<<<< HEAD
 
 	}
+=======
+    
+    
+}
+>>>>>>> 589ccbbae76b4615406e07af337041d067d64004
 
 
