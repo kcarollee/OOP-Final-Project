@@ -49,5 +49,3 @@ int Stack::pop(              )      {
                 return ptr[top--];
              }
          exit(1);}
-
-

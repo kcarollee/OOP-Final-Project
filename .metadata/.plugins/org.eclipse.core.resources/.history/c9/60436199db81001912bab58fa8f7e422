@@ -3,7 +3,6 @@ package headerFileViewer;
 import java.util.ArrayList;
 
 public class Tokenizer {
-    public ArrayList<String> mainTextTokens = new ArrayList<String>();
     public ArrayList<String> declarationTokens = new ArrayList<String>();
     public ArrayList<String> definitionTokens = new ArrayList<String>();
     public int index = 0 ;
@@ -43,57 +42,26 @@ public class Tokenizer {
     	private void clear() {
     		brackets.clear();
     	}
-    	
-    	private void showBrackets() {
-    		for (Character c : brackets) {
-    			System.out.print(c);
-    		}
-    		System.out.println();
-    	}
     }
     
     public BracketStack bracketStack = new BracketStack();
     
+    
+    public Tokenizer() {
+    }
+    
     public Tokenizer(StringBuffer mainTextBuffer){
         processDeclarations(mainTextBuffer);
-        processTextBuffer(mainTextBuffer);
         processDefinitions(mainTextBuffer);
-    }
-
-    // 일반적인 토크나이저입니다. 순수 스트링을 받음.
-    // 메스드가 사용하는 변수를 알아낼때 사용하기. 
-    public void processTextBuffer(StringBuffer mainTextBuffer){
-        String temp = "";
-        for (int i = 0; i < mainTextBuffer.length(); i++){
-            if ((mainTextBuffer.charAt(i) == '/' && mainTextBuffer.charAt(i + 1) == '/')){
-                commentMode = true;
-            }
-            if (commentMode){
-                if (mainTextBuffer.charAt(i) == '\r')
-                    commentMode = false;
-                else
-                    continue;
-            }
-            else {
-                if (isChar(mainTextBuffer.charAt(i))) {
-                    temp += mainTextBuffer.charAt(i);
-                    noChar = true;
-                }
-                else {
-                    if (noChar) {
-                        noChar = false;
-                        mainTextTokens.add(temp);
-                        temp = "";
-                    }
-                }
-            }
-        }
-    }
-
+    } 
+    
+   
     // 이 메소드는 Table구조용에 쓰일 토크나이저입니다.
     public void processDeclarations(StringBuffer mainTextBuffer){
         String temp = "";
         String temp2 = "";
+        String methodContentWithin = "";
+        boolean addedToDefinitionTokens = false;
         for (int i = 0; i < mainTextBuffer.length(); i++){
             if (mainTextBuffer.charAt(i) == '{'){
                 bracketNum++;
@@ -127,13 +95,21 @@ public class Tokenizer {
                 // 주석이 아니라면
                 else {
                     // 대괄호 처리. 첫번째 대괄호는 꼭 필요. 두번째 대괄호가
-                    // 열린 순간 그 괄호가 닫힐때까지의 내용은 불필요.
+                    // 열리면 메소드 내용 스트링에 넣기 
                     if (bracketNum > 1){
                         if (mainTextBuffer.charAt(i) != '}') {
                         	index++;
+                        	if (!addedToDefinitionTokens) {
+                        		definitionTokens.add(temp);
+                        		addedToDefinitionTokens = true;
+                        	}
+                        	if (mainTextBuffer.charAt(i) != '{')
+                        		methodContentWithin += mainTextBuffer.charAt(i);
                         	continue;
                         }
                         else {
+                        	definitionTokens.add(methodContentWithin);
+                        	methodContentWithin = "";
                         	index++;
                             bracketNum--;
                         }
@@ -208,14 +184,13 @@ public class Tokenizer {
     	commentMode = false;
     	boolean blockInitiated = false;
     	boolean gettingMethodName = false;
+    	boolean methodNameParsed = false; 
     	String temp = "";
         String temp2 = "";
         String temp3 = ""; // used for method information tokens: split by \r
     	for (int i = index; i < mainTextBuffer.length(); i++) {
-    		//////////////////
-    		System.out.print(mainTextBuffer.charAt(i));
+    		
     		 if ((mainTextBuffer.charAt(i) == '/' && mainTextBuffer.charAt(i + 1) == '/')) {
-             
              	commentMode = true;
              }
              // 주석이라면
@@ -257,6 +232,7 @@ public class Tokenizer {
                              	temp += mainTextBuffer.charAt(i);
                              	// 열림 플래그를 false로 설정
                                  parenthesisOpen = false;
+                                 methodNameParsed = true;
                              }
                              // 함수가 변수를 받을때를 고려. 
                              else {
@@ -279,45 +255,39 @@ public class Tokenizer {
                          // 소괄호 고려를 안해도 될 경우
                          else {
                              if (isCharOrParenthesis(mainTextBuffer.charAt(i))) {
-                             	temp += mainTextBuffer.charAt(i);
-                                 noChar = true;
+                             	temp += mainTextBuffer.charAt(i);   
+                                                              
                              }
-                            
-             
+                                                       
                              else {
-                                 if (noChar) {	
-                                 	noChar = false;
-                                    definitionTokens.add(temp);
-                                    gettingMethodName = false;
-                                    temp = "";
-                                 }
-                                 
-                                 else if (mainTextBuffer.charAt(i) == '{' && !blockInitiated) {
-                                	 blockInitiated = true;	
-                        			 bracketStack.addBracket(mainTextBuffer.charAt(i));
-                        		
-                        			 continue;
-                                 }
-                                
+                            	 if (!methodNameParsed) {
+                            		 if (mainTextBuffer.charAt(i) == ' ') {                               	                                 	
+                            			 definitionTokens.add(temp);                 
+                            			 temp = "";
+                            		 }  
+                            	 }
+                                 else {
+                                	 if (mainTextBuffer.charAt(i) == '{' && !blockInitiated) {
+                                		 definitionTokens.add(temp);
+                                		 gettingMethodName = false;
+                                		 temp = "";
+                                     
+                                		 gettingMethodName = false;
+                                		 blockInitiated = true;	
+                                		 bracketStack.addBracket(mainTextBuffer.charAt(i));      
+                                	 }
+                        	 	 }
                              }
                          }
                      }
             	 }
-            	 ////////////////////////////////////////////////////////////
             	 // not getting methodName -> look for opening bracket
             	 else {
-            		 if (mainTextBuffer.charAt(i) == '{' && !blockInitiated) {
-            			 blockInitiated = true;	
-            			 bracketStack.addBracket(mainTextBuffer.charAt(i));
-            		
-            			 continue;
-            	 	 }
+            		 
             		 if (blockInitiated) { 
             			 if (mainTextBuffer.charAt(i) == '{' || mainTextBuffer.charAt(i) == '}') {
             				 bracketStack.addBracket(mainTextBuffer.charAt(i));
-            				 if (bracketStack.bracketClosed()) {
-            					 ////////
-            					 bracketStack.showBrackets();
+            				 if (bracketStack.bracketClosed()) {            					 
             					 bracketStack.clear();
             					 definitionTokens.add(temp3);
             					 temp3 = "";
@@ -331,8 +301,7 @@ public class Tokenizer {
             				 temp3 += mainTextBuffer.charAt(i);
             			 }
             		 }
-            		 else {
-            			
+            		 else {            			
             			 continue;
             		 }
             	 }
@@ -367,9 +336,7 @@ public class Tokenizer {
         return false;
     }
 
-    public ArrayList<String> getTokens(){
-        return mainTextTokens;
-    }
+    
 
     public ArrayList<String> getDeclarationTokens(){
         return declarationTokens;
