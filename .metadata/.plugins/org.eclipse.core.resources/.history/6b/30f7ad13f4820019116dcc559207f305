@@ -23,9 +23,11 @@ class ViewerTreeModel implements TreeModel{
             return c.getFormattedVariableName(index - c.getMethodCount());
         }
     }
+
     public int getChildCount(Object parent){
         return c.getMethodCount() + c.getVariableCount();
     }
+
     public int getIndexOfChild(Object parent, Object child){
         int index = 0;
         for (int i = 0; i < c.methodList.size(); i++){

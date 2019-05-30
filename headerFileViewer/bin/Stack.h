@@ -18,7 +18,11 @@ private:
 
 // end class stack
 
-
+int Stack::pop(              )      {
+                   if (!isEmpty()){
+                return ptr[top--];
+             }
+         exit(1);}
 void Stack::push(int v){
     if (!isFull()){
         ptr[++top] = v;
@@ -33,20 +37,16 @@ void Stack::push(int v){
 
 
 
-bool      Stack::isEmpty          ()                {
-    if (top == -1) return true;
-    else return false;
-}
+
 
 bool         Stack::isFull     (){
                    if (top >= size - 1) return true;
     else        return false;
 }
 
+bool      Stack::isEmpty          ()                {
+    if (top == -1) return true;
+    else return false;
+}
 
-int Stack::pop(              )      {
-                   if (!isEmpty()){
-                return ptr[top--];
-             }
 
-         exit(1);}

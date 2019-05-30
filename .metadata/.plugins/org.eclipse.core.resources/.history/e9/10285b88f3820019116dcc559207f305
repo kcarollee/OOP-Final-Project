@@ -1,64 +1,11 @@
 package headerFileViewer;
 
-import javax.swing.tree.*;
-import javax.swing.event.*;
 import javax.swing.*;
+import javax.swing.table.AbstractTableModel;
+
 import java.awt.event.*;
 import java.awt.*;
 
-class ViewerTreeModel implements TreeModel{
-    public ClassInfo c;
-
-    public ViewerTreeModel(ClassInfo c){
-        this.c = c;
-    }
-
-    public String getChild(Object parent, int index){
-        if (index < c.getMethodCount()){
-            System.out.println("TREETEST");
-            System.out.println(c.getMethodName(index) + " " + index);
-            return c.getMethodName(index);
-        }
-        else{
-            return c.getFormattedVariableName(index - c.getMethodCount());
-        }
-    }
-    public int getChildCount(Object parent){
-        return c.getMethodCount() + c.getVariableCount();
-    }
-    public int getIndexOfChild(Object parent, Object child){
-        int index = 0;
-        for (int i = 0; i < c.methodList.size(); i++){
-            if (child.equals(c.methodList.get(i).getName())) {
-                index++;
-                return index;
-            }
-            else
-                index++;
-        }
-        for (int i = 0; i < c.variableList.size(); i++){
-            index++;
-            if(child.equals(c.variableList.get(i).getName()))
-                return index;
-        }
-        return index;
-    }
-
-    public Object getRoot(){
-        return c.getClassName();
-    }
-
-    public boolean isLeaf(Object node){
-        if(node.equals(c.getClassName()))
-            return false;
-        return true;
-    }
-
-    public void addTreeModelListener(TreeModelListener i){ }
-    public void removeTreeModelListener(TreeModelListener i){}
-    public void valueForPathChanged(TreePath path, Object newValue){}
-
-}
 /************************************************************************************************************************************************
  *                                                    GETTER MANUAL
  * 
@@ -88,29 +35,9 @@ class ViewerTreeModel implements TreeModel{
  *////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 public class MainApp {
-	public JTree tree;
-
-
-    public MainApp(){
-        Parser p = new Parser("bin\\Stack.h");
-        Tokenizer t = new Tokenizer(p.getTextBuffer());
-        ClassInfo c = new ClassInfo(t.getDeclarationTokens(), t.getDefinitionTokens());
-
-        ViewerTreeModel model = new ViewerTreeModel(c);
-
-        tree = new JTree(model);
-        tree.setModel(model);
-
-        JFrame f = new JFrame("TREE MODEL");
-
-        f.getContentPane().add("Center", tree);
-        f.setSize(1000, 1000);
-        f.setVisible(true);
-
-    }
 		
     public static void main(String[] args){
-    	//InfoTable ta = new InfoTable();
+    	InfoTable ta = new InfoTable();
         Parser p = new Parser("bin\\Stack.h");
         Tokenizer t = new Tokenizer(p.getTextBuffer());
         System.out.println("---------------------Testing declaration tokens-----------------");
@@ -177,9 +104,6 @@ public class MainApp {
         	System.out.println("--------------------------------------------------------------");   
         }
         System.out.println(c.getMethodCount() + " " +  c.getVariableCount());
-        
-        ////////////////////////////////////////////////////////////////
-        MainApp m = new MainApp();
         
     }
 
