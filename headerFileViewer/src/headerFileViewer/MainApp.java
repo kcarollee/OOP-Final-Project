@@ -1,6 +1,8 @@
 package headerFileViewer;
 
 import javax.swing.*;
+import javax.swing.table.AbstractTableModel;
+
 import java.awt.event.*;
 import java.awt.*;
 
@@ -32,11 +34,10 @@ import java.awt.*;
  *                                                    getVariableCount()                   변수의 갯수를 반환
  *////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-public class MainApp extends JFrame{
-    public MainApp(){
-    	
-    }
+public class MainApp {
+		
     public static void main(String[] args){
+    	InfoTable ta = new InfoTable();
         Parser p = new Parser("bin\\Stack.h");
         Tokenizer t = new Tokenizer(p.getTextBuffer());
         System.out.println("---------------------Testing declaration tokens-----------------");
@@ -105,8 +106,9 @@ public class MainApp extends JFrame{
         System.out.println(c.getMethodCount() + " " +  c.getVariableCount());
         
     }
-    
-    
+
 }
+    
+    
 
 

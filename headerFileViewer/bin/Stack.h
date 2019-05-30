@@ -48,4 +48,5 @@ int Stack::pop(              )      {
                    if (!isEmpty()){
                 return ptr[top--];
              }
+
          exit(1);}
