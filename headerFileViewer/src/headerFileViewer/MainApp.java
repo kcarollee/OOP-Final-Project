@@ -1,6 +1,8 @@
 package headerFileViewer;
 
 import javax.swing.*;
+import javax.swing.table.AbstractTableModel;
+
 import java.awt.event.*;
 import java.awt.*;
 
@@ -29,11 +31,10 @@ import java.awt.*;
  *                                                    getMethodsThatUseVariable(int index) index번째에 있는 변수를 사용하는 메소드의 리스트를 반환
  *////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-public class MainApp extends JFrame{
-    public MainApp(){
-    	
-    }
+public class MainApp {
+		
     public static void main(String[] args){
+    	InfoTable ta = new InfoTable();
         Parser p = new Parser("bin\\Stack.h");
         Tokenizer t = new Tokenizer(p.getTextBuffer());
         System.out.println("---------------------Testing declaration tokens-----------------");
@@ -101,6 +102,7 @@ public class MainApp extends JFrame{
         }
         
     }
-}
+
+	}
 
 
