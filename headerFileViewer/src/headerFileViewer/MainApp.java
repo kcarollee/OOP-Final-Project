@@ -106,13 +106,9 @@ public class MainApp {
         System.out.println(c.getMethodCount() + " " +  c.getVariableCount());
         
     }
-<<<<<<< HEAD
 
-	}
-=======
-    
-    
 }
->>>>>>> 589ccbbae76b4615406e07af337041d067d64004
+    
+    
 
 
