@@ -16,16 +16,21 @@ public class InfoTable extends JFrame {
 		getContentPane().add(new JScrollPane(table),"Center");
 		setSize(500,300);
 		setVisible(true);
+		
 		}
 	
 	class TableModel extends AbstractTableModel{
 		
-		Object[][] data = {
-				{c.getName(0),c.getType(0),c.getAccess(0)},
-				{c.getName(1),c.getType(1),c.getAccess(1)},
-				{c.getName(2),c.getType(2),c.getAccess(2)},
-				{c.getName(3),c.getType(3),c.getAccess(3)}
-			};
+		Object[][] data = new Object[c.getMethodCount()+c.getVariableCount()][3];
+		TableModel(){
+			for(int i=0;i<c.getMethodCount()+c.getVariableCount();i++) {
+				for(int j=0;j<3;j++) {
+					if(j==0) data[i][j]=c.getName(i);
+					else if(j==1) data[i][j]=c.getType(i);
+					else data[i][j]=c.getAccess(i);
+				}
+			}
+		}
 		String[] columnName = {"Name","Type","Access"};
 		public int getColumnCount() {return columnName.length;}
 		public int getRowCount() {return data.length;}

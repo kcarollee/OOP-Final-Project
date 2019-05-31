@@ -104,13 +104,13 @@ public class MainApp {
         JFrame f = new JFrame("TREE MODEL");
 
         f.getContentPane().add("Center", tree);
-        f.setSize(1000, 1000);
+        f.setSize(500, 500);
         f.setVisible(true);
 
     }
 		
     public static void main(String[] args){
-    	//InfoTable ta = new InfoTable();
+    	InfoTable ta = new InfoTable();
         Parser p = new Parser("bin\\Stack.h");
         Tokenizer t = new Tokenizer(p.getTextBuffer());
         System.out.println("---------------------Testing declaration tokens-----------------");
