@@ -177,7 +177,7 @@ public class ClassInfo  {
         String temp = "";
         for (int i = 0; i < methodList.get(index).methodSplitByNewLine.size(); i++) {
             temp += (methodList.get(index).methodSplitByNewLine.get(i));
-            temp += '\n';
+            temp += '\r';
         }
         return temp;
     }
