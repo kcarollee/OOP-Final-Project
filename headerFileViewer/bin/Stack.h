@@ -49,4 +49,3 @@ bool      Stack::isEmpty          ()                {
     else return false;
 }
 
-
