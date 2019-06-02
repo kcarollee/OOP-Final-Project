@@ -191,7 +191,7 @@ public class Gui extends JFrame	{
 				else if(o==treemodel.getChild(treemodel.getRoot(),5)) {
 					cardpanel.setVisible(true);
 					card.show(cardpanel, "textarea");
-					
+					System.out.println("Testing Varatable23");
 					textarea.setText(c.getFormattedMethodContents(5));
 				}
 				else if(o==treemodel.getChild(treemodel.getRoot(),6)) {

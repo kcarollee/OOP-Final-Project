@@ -93,8 +93,8 @@ public class Gui extends JFrame	{
 		Object[][] data = new Object[c.getVariableCount()][2];
 		int index;
 		VarTableModel(){
-			data[0][0]=c.getVariableName(index);
-			data[0][1]=c.getMethodsThatUseVariable(index);
+			data[0][0]=c.getVariableName(0);
+			data[0][1]=c.getMethodsThatUseVariable(0);
 		}
 		String[] columnName = {"Name","methods"};
 		public int getColumnCount() {return columnName.length;}
@@ -191,17 +191,14 @@ public class Gui extends JFrame	{
 				else if(o==treemodel.getChild(treemodel.getRoot(),5)) {
 					cardpanel.setVisible(true);
 					card.show(cardpanel, "textarea");
-					
+					System.out.println("Testing Varatable23");
 					textarea.setText(c.getFormattedMethodContents(5));
 				}
 				else if(o==treemodel.getChild(treemodel.getRoot(),6)) {
 					cardpanel.setVisible(true);
-					
+					System.out.println("Testing Varatable");
 					vartablemodel.index =0;
-					
 					card.show(cardpanel, "vartable");
-					
-					
 				}
 				else if(o==treemodel.getChild(treemodel.getRoot(),7)) {
 					cardpanel.setVisible(true);
@@ -213,7 +210,7 @@ public class Gui extends JFrame	{
 					vartablemodel.index =2;
 					card.show(cardpanel, "vartable");
 				}
-				
+				else System.out.println("����");
 			}
 		});
 	}

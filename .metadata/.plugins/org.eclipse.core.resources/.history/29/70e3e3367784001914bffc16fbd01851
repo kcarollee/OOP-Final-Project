@@ -139,6 +139,7 @@ public class Gui extends JFrame	{
         table = new JTable(tablemodel);
         table.setSize(550, 300);
         VarTableModel vartablemodel = new VarTableModel();
+        
         vartable = new JTable(vartablemodel);
         vartable.setSize(550,300);
         
