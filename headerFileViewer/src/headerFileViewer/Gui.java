@@ -2,6 +2,8 @@ package headerFileViewer;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.event.*;
 import javax.swing.table.AbstractTableModel;
@@ -14,14 +16,12 @@ class ViewerTreeModel implements TreeModel{
         this.c = c;
     }
 
-    public Object getChild(Object parent, int index){
+    public String getChild(Object parent, int index){
         if (index < c.getMethodCount()){
-            System.out.println("TREETEST");
-            System.out.println(c.getMethodName(index) + " " + index);
             return c.getMethodName(index);
         }
         else {
-            return c.getFormattedVariableName(index - c.getMethodCount());
+        	return c.getFormattedVariableName(index-c.getMethodCount());
         }
     }
     public int getChildCount(Object parent){
@@ -66,7 +66,7 @@ public class Gui extends JFrame	{
 	Parser p= new Parser("bin\\Stack.h");
 	Tokenizer t= new Tokenizer(p.getTextBuffer());
 	ClassInfo c= new ClassInfo(t.getDeclarationTokens(),t.getDefinitionTokens());
-	JTable table,vartable;
+	JTable table,sizetable,toptable,ptrtable;
 	CardLayout card;
 	JTextArea textarea;
 	
@@ -88,11 +88,10 @@ public class Gui extends JFrame	{
 		public Object getValueAt(int row,int col) {return data[row][col];}
 		public Class getColumnClass(int c) {return getValueAt(0,c).getClass();}	
 	}
-	
-	class VarTableModel extends AbstractTableModel{
+	//변수 테이블 각각 생성
+	class SizeTableModel extends AbstractTableModel{
 		Object[][] data = new Object[c.getVariableCount()][2];
-		int index;
-		VarTableModel(){
+		SizeTableModel(){
 			data[0][0]=c.getVariableName(0);
 			data[0][1]=c.getMethodsThatUseVariable(0);
 		}
@@ -104,10 +103,45 @@ public class Gui extends JFrame	{
 		public Class getColumnClass(int c) {return getValueAt(0,c).getClass();}
 	}
 	
+	class TopTableModel extends AbstractTableModel{
+		Object[][] data = new Object[c.getVariableCount()][2];
+		TopTableModel(){
+			data[0][0]=c.getVariableName(1);
+			data[0][1]=c.getMethodsThatUseVariable(1);
+		}
+		String[] columnName = {"Name","methods"};
+		public int getColumnCount() {return columnName.length;}
+		public int getRowCount() {return data.length;}
+		public String getColumnName(int col) {return columnName[col];}
+		public Object getValueAt(int row,int col) {return data[row][col];}
+		public Class getColumnClass(int c) {return getValueAt(0,c).getClass();}
+		
+	}
+	
+	class PtrTableModel extends AbstractTableModel{
+		Object[][] data = new Object[c.getVariableCount()][2];
+		PtrTableModel(){
+			data[0][0]=c.getVariableName(2);
+			data[0][1]=c.getMethodsThatUseVariable(2);
+		}
+		String[] columnName = {"Name","methods"};
+		public int getColumnCount() {return columnName.length;}
+		public int getRowCount() {return data.length;}
+		public String getColumnName(int col) {return columnName[col];}
+		public Object getValueAt(int row,int col) {return data[row][col];}
+		public Class getColumnClass(int c) {return getValueAt(0,c).getClass();}
+		
+	}
+	
 	public Gui() {
 		JPanel treepanel = new JPanel();
 		JPanel usepanel = new JPanel();
 		JPanel cardpanel = new JPanel();
+		JLabel uselabel = new JLabel("Use");
+		//메소드가 사용하는 변수를 표시하는 스플릿패널 생성. 스플릿으로 만든 이유는 단순히 크기 조절을 위해서임.
+		JTextArea usetextarea = new JTextArea();
+		JSplitPane varpanel = new JSplitPane(1,false,usetextarea,new JPanel());
+		varpanel.setDividerLocation(200);
 		setTitle("C++ class viewer");
 		setSize(1000,420);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -116,15 +150,21 @@ public class Gui extends JFrame	{
 		treepanel.setBounds(10, 20, 390, 250);
 		add(usepanel);
 		usepanel.setBounds(10, 270, 390, 100);
+		usepanel.setLayout(new BorderLayout());
+		usepanel.add(uselabel,BorderLayout.NORTH);
+		usepanel.add(varpanel,BorderLayout.CENTER);
 		add(cardpanel);
 		cardpanel.setBounds(420, 50, 550, 300);
 		LineBorder border = new LineBorder(Color.black);
+		//EmptyBorder emptyborder = new EmptyBorder(5,10,10,190);
+		//varpanel.setPreferredSize(new Dimension(50, 50));
 		treepanel.setBorder(border);
 		usepanel.setBorder(border);
+		varpanel.setBorder(border);
 		cardpanel.setBorder(border);
 		treepanel.setBackground(Color.white);
 		setVisible(true);
-		setResizable(false);
+		setResizable(true);
 		
 		ViewerTreeModel treemodel = new ViewerTreeModel(c);
 
@@ -138,9 +178,18 @@ public class Gui extends JFrame	{
         TableModel tablemodel = new TableModel();
         table = new JTable(tablemodel);
         table.setSize(550, 300);
-        VarTableModel vartablemodel = new VarTableModel();
-        vartable = new JTable(vartablemodel);
-        vartable.setSize(550,300);
+        
+        SizeTableModel sizetablemodel = new SizeTableModel();
+	    sizetable = new JTable(sizetablemodel);
+	    sizetable.setSize(550,300);
+	    
+	    TopTableModel toptablemodel = new TopTableModel();
+	    toptable = new JTable(toptablemodel);
+	    toptable.setSize(550,300);
+	    
+	    PtrTableModel ptrtablemodel = new PtrTableModel();
+	    ptrtable = new JTable(ptrtablemodel);
+	    ptrtable.setSize(550,300);
         
         textarea = new JTextArea(30,500);
         textarea.setEditable(true);
@@ -151,64 +200,71 @@ public class Gui extends JFrame	{
         cardpanel.setLayout(card);
         cardpanel.add(table,"table");
         cardpanel.add(textarea,"textarea");
-        cardpanel.add(vartable,"vartable");
+        cardpanel.add(sizetable,"sizetable");
+        cardpanel.add(toptable,"toptable");
+        cardpanel.add(ptrtable,"ptrtable");
         cardpanel.setVisible(false);
         
        
         tree.addTreeSelectionListener(new TreeSelectionListener() {
 			
 			public void valueChanged(TreeSelectionEvent e) {
-				Object o = e.getPath().getLastPathComponent();
+				Object o = e.getPath().getLastPathComponent().toString();
 				if(o==treemodel.getRoot()) {
 					cardpanel.setVisible(true);
 					card.show(cardpanel, "table");
 				}
-				else if(o==treemodel.getChild(treemodel.getRoot(),0)) {
+				
+				// 변수 리스너 발동을 위한 발악의 잔재
+				/*else if(o==treemodel.getChild(treemodel.getRoot(),6)) {
 					cardpanel.setVisible(true);
-					card.show(cardpanel, "textarea");
-					textarea.setText(c.getFormattedMethodContents(0));
+					card.show(cardpanel, "sizetable");
 				}
-				else if(o==treemodel.getChild(treemodel.getRoot(),1)) {
-					cardpanel.setVisible(true);
-					card.show(cardpanel, "textarea");
-					textarea.setText(c.getFormattedMethodContents(1));
-				}
-				else if(o==treemodel.getChild(treemodel.getRoot(),2)) {
-					cardpanel.setVisible(true);
-					card.show(cardpanel, "textarea");
-					textarea.setText(c.getFormattedMethodContents(2));
-				}
-				else if(o==treemodel.getChild(treemodel.getRoot(),3)) {
-					cardpanel.setVisible(true);
-					card.show(cardpanel, "textarea");
-					textarea.setText(c.getFormattedMethodContents(3));
-				}
-				else if(o==treemodel.getChild(treemodel.getRoot(),4)) {
-					cardpanel.setVisible(true);
-					card.show(cardpanel, "textarea");
-					textarea.setText(c.getFormattedMethodContents(4));
-				}
-				else if(o==treemodel.getChild(treemodel.getRoot(),5)) {
-					cardpanel.setVisible(true);
-					card.show(cardpanel, "textarea");
-					textarea.setText(c.getFormattedMethodContents(5));
-				}
-				else if(o==treemodel.getChild(treemodel.getRoot(),6)) {
-					cardpanel.setVisible(true);
-					vartablemodel.index =0;
-					card.show(cardpanel, "vartable");
-				}
+				
 				else if(o==treemodel.getChild(treemodel.getRoot(),7)) {
 					cardpanel.setVisible(true);
-					vartablemodel.index =1;
-					card.show(cardpanel, "vartable");
+					card.show(cardpanel, "toptable");
 				}
+				
 				else if(o==treemodel.getChild(treemodel.getRoot(),8)) {
 					cardpanel.setVisible(true);
-					vartablemodel.index =2;
-					card.show(cardpanel, "vartable");
+					card.show(cardpanel, "ptrtable");
+				}*/
+				// for loop으로 수정,else if들은 이 또한 발악의 잔재. index가 6,7,8일때 getchild가 제대로 작동하지 않는게 원인인듯?
+				else {
+					for (int i=0;i<c.getMethodCount()+c.getVariableCount();i++) {
+						if(i<c.getMethodCount()) {
+							if(o==treemodel.getChild(treemodel.getRoot(),i)) {
+								cardpanel.setVisible(true);
+								card.show(cardpanel, "textarea");
+								textarea.setText(c.getFormattedMethodContents(i));
+								//메소드가 사용하는 변수를 리스너에 등록
+								usetextarea.setText(c.getVariablesUsedByMethod(i));
+								break;
+							}
+						}
+						else if(i==6 && o==treemodel.getChild(treemodel.getRoot(), 6)) {
+							cardpanel.setVisible(true);
+							card.show(cardpanel, "sizetable");
+							break;
+						}
+					
+						else if(i==7 && o==treemodel.getChild(treemodel.getRoot(),7)) {
+							cardpanel.setVisible(true);
+							card.show(cardpanel, "toptable");
+							break;
+						}
+					
+						else /*if(i==8 && o==treemodel.getChild(treemodel.getRoot(),8))*/ {
+							System.out.println("이것도 아니지롱!");
+							System.out.println("ㅋㅋ!");
+							cardpanel.setVisible(true);
+							card.show(cardpanel, "ptrtable");
+							break;
+						}	
+					}
 				}
-				else System.out.println("ㅋㅋ");
+				
 			}
 		});
 	}

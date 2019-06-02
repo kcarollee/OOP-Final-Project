@@ -186,7 +186,7 @@ public class ClassInfo  {
         String temp = "";
         for (int i = 0; i < methodList.get(index).memberVariables.size(); i++) {
             temp += (methodList.get(index).memberVariables.get(i));
-            temp += '\r';
+            temp += '\n';
         }
         return temp;
     }
