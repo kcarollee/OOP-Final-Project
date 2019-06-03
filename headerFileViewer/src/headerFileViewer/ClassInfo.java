@@ -7,13 +7,13 @@ public class ClassInfo  {
 
     public int methodCount = 0;
     public int variableCount = 0;
-    // ´ÙÀ½Àº String ¹è¿­ÀÇ ¹è¿­¸®½ºÆ®ÀÔ´Ï´Ù. °¢°¢ String[]Àº Å©±â 3ÀÇ ½ºÆ®¸µ ¹è¿­ÀÎµ¥
-    // 0ÀÎµ¦½º¿¡´Â ¸Þ¼ÒµåÀÇ ÀÌ¸§, 1ÀÎµ¦½º¿¡´Â ¸Þ¼ÒµåÀÇ ¹ÝÈ¯Çü, 2ÀÎµ¦½º¿¡´Â Á¢±ÙÁö½ÃÀÚ°¡ µé¾î°©´Ï´Ù.
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ String ï¿½è¿­ï¿½ï¿½ ï¿½è¿­ï¿½ï¿½ï¿½ï¿½Æ®ï¿½Ô´Ï´ï¿½. ï¿½ï¿½ï¿½ï¿½ String[]ï¿½ï¿½ Å©ï¿½ï¿½ 3ï¿½ï¿½ ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½è¿­ï¿½Îµï¿½
+    // 0ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼Òµï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½, 1ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼Òµï¿½ï¿½ï¿½ ï¿½ï¿½È¯ï¿½ï¿½, 2ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú°ï¿½ ï¿½ï¿½î°©ï¿½Ï´ï¿½.
     public ArrayList<String[]> tableArray = new ArrayList<String[]>();
     public ArrayList<String> declarationTokens;
     public ArrayList<String> definitionTokens;
 
-    // ´ÙÀ½ µÎ ¹è¿­¸®½ºÆ®µéÀº Tree¸ðµ¨ ±¸Çö¿¡ ¾²ÀÔ´Ï´Ù.
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½è¿­ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ Treeï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ô´Ï´ï¿½.
     public ArrayList<MethodInfo> methodList = new ArrayList<MethodInfo>();
     public ArrayList<VariableInfo> variableList = new ArrayList<VariableInfo>();
 
@@ -21,7 +21,7 @@ public class ClassInfo  {
     public String currentAccessSpecifier = new String();
     public String currentType = new String();
 
-    // MethodInfo¿¡ ¾²ÀÏ ¸â¹ö º¯¼öÀÇ ¸®½ºÆ®ÀÔ´Ï´Ù.
+    // MethodInfoï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½Ô´Ï´ï¿½.
     public ArrayList<String> memberVariables = new ArrayList<String>();
 
     public ClassInfo(ArrayList<String> declarationTokens, ArrayList<String> definitionTokens){
@@ -39,9 +39,9 @@ public class ClassInfo  {
         return className;
     }
 
-    // Å×ÀÌºí¿ë
+    // ï¿½ï¿½ï¿½Ìºï¿½ï¿½ï¿½
     public void processDeclarationTokens(){
-        // Å¬·¡½º Á¤ÀÇ ³»ºÎºÎÅÍ ½ÃÀÛÇÏ±â
+        // Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
         for (int i = 2; i < declarationTokens.size(); i++) {
 
             if (isAccessSpecifier(declarationTokens.get(i))) {
@@ -60,11 +60,11 @@ public class ClassInfo  {
                 tableRow[2] = currentAccessSpecifier;
                 tableArray.add(tableRow);
             }
-            // Æ÷ÀÎÅÍ º¯¼ö
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             else if (isPointer(declarationTokens.get(i))) {
                 String[] tableRow = new String[3];
-                tableRow[0] = declarationTokens.get(i).substring(1); // *ptrÀÇ *¸¦ ¾ø¾ÖÁÖ±â
-                tableRow[1] = currentType + "*"; // int* Ã³·³ ¾î¶² Çü½ÄÀÇ Æ÷ÀÎÅÍÀÎÁö ¾Ë·ÁÁÜ
+                tableRow[0] = declarationTokens.get(i).substring(1); // *ptrï¿½ï¿½ *ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½
+                tableRow[1] = currentType + "*"; // int* Ã³ï¿½ï¿½ ï¿½î¶² ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë·ï¿½ï¿½ï¿½
                 tableRow[2] = currentAccessSpecifier;
                 tableArray.add(tableRow);
             }
@@ -79,10 +79,10 @@ public class ClassInfo  {
             }
         }
     }
-    // Æ®¸® ¹× ¸Þ¼Òµå ¼±ÅÃ¿ë
+    // Æ®ï¿½ï¿½ ï¿½ï¿½ ï¿½Þ¼Òµï¿½ ï¿½ï¿½ï¿½Ã¿ï¿½
     public void processDefinitionTokens() {
         for (int i = 0; i < definitionTokens.size(); i += 2) {
-            // i°¡ Â¦¼öÀÏ °æ¿ì ¸Þ¼Òµå ÀÌ¸§, È¦¼öÀÏ °æ¿ì ¸Þ¼Òµå ³»¿ë.
+            // iï¿½ï¿½ Â¦ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Þ¼Òµï¿½ ï¿½Ì¸ï¿½, È¦ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Þ¼Òµï¿½ ï¿½ï¿½ï¿½ï¿½.
             MethodInfo method = new MethodInfo(definitionTokens.get(i), definitionTokens.get(i + 1));
             methodList.add(method);
             methodCount++;
@@ -95,7 +95,7 @@ public class ClassInfo  {
     }
 
 
-    // ÀÚ·á ¼±ÅÃ¿ë
+    // ï¿½Ú·ï¿½ ï¿½ï¿½ï¿½Ã¿ï¿½
     public void addVariableInfo() {
         for (String[] s : tableArray) {
             if (stringIsMethodName(s[0]))
@@ -112,7 +112,7 @@ public class ClassInfo  {
     public int getVariableCount(){
         return variableCount;
     }
-    // ÀÚ·á ¼±ÅÃ½Ã ºñ±³¿ë
+    // ï¿½Ú·ï¿½ ï¿½ï¿½ï¿½Ã½ï¿½ ï¿½ñ±³¿ï¿½
     public void addMethodsToVariableInfo() {
         for (VariableInfo variable : variableList) {
             for (MethodInfo method : methodList) {
@@ -186,7 +186,7 @@ public class ClassInfo  {
         String temp = "";
         for (int i = 0; i < methodList.get(index).memberVariables.size(); i++) {
             temp += (methodList.get(index).memberVariables.get(i));
-            temp += '\r';
+            temp += '\n';
         }
         return temp;
     }

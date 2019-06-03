@@ -2,10 +2,13 @@ package headerFileViewer;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.event.*;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.tree.*;
+import java.util.ArrayList;
 
 class ViewerTreeModel implements TreeModel{
     public ClassInfo c;
@@ -14,14 +17,14 @@ class ViewerTreeModel implements TreeModel{
         this.c = c;
     }
 
-    public Object getChild(Object parent, int index){
+    public String getChild(Object parent, int index){
         if (index < c.getMethodCount()){
-            System.out.println("TREETEST");
-            System.out.println(c.getMethodName(index) + " " + index);
+        	System.out.println("TREE TEST 1: " + index);
             return c.getMethodName(index);
         }
         else {
-            return c.getFormattedVariableName(index - c.getMethodCount());
+        	System.out.println("TREE TEST 2: " + index);
+        	return c.getFormattedVariableName(index-c.getMethodCount());
         }
     }
     public int getChildCount(Object parent){
@@ -32,6 +35,7 @@ class ViewerTreeModel implements TreeModel{
         for (int i = 0; i < c.methodList.size(); i++){
             if (child.equals(c.methodList.get(i).getName())) {
                 index++;
+                System.out.println("TREE TEST " + index);
                 return index;
             }
             else
@@ -39,9 +43,16 @@ class ViewerTreeModel implements TreeModel{
         }
         for (int i = 0; i < c.variableList.size(); i++){
             index++;
-            if(child.equals(c.variableList.get(i).getName()))
-                return index;
+            if(child.equals(c.variableList.get(i).getName())) {
+            	index++;
+            	System.out.println("TREE TEST " + index);
+            	return index;
+            }
+            else
+                index++;
+                
         }
+        System.out.println("TREE TEST " + index);
         return index;
     }
 
@@ -66,9 +77,13 @@ public class Gui extends JFrame	{
 	Parser p= new Parser("bin\\Stack.h");
 	Tokenizer t= new Tokenizer(p.getTextBuffer());
 	ClassInfo c= new ClassInfo(t.getDeclarationTokens(),t.getDefinitionTokens());
-	JTable table,vartable;
+	JTable table,sizetable,toptable,ptrtable;
 	CardLayout card;
 	JTextArea textarea;
+	
+	// 중요!
+	ArrayList<VarTableModel> varTableModelList = new ArrayList<VarTableModel>(); // 여기에 모델들을 담음
+	ArrayList<JTable> varTableList = new ArrayList<JTable>(); // 여기에 모델을 사용해 생성된 테이블들을 담음
 	
 	class TableModel extends AbstractTableModel{		
 		Object[][] data = new Object[c.getMethodCount()+c.getVariableCount()][3];
@@ -88,11 +103,12 @@ public class Gui extends JFrame	{
 		public Object getValueAt(int row,int col) {return data[row][col];}
 		public Class getColumnClass(int c) {return getValueAt(0,c).getClass();}	
 	}
-	
+	//���� ���̺� ���� ����
+	//////////////////////////////////////////////////////
+	// 변수 테이블 모델을 하나로 지정
 	class VarTableModel extends AbstractTableModel{
 		Object[][] data = new Object[c.getVariableCount()][2];
-		int index;
-		VarTableModel(){
+		public VarTableModel(int index){
 			data[0][0]=c.getVariableName(index);
 			data[0][1]=c.getMethodsThatUseVariable(index);
 		}
@@ -103,11 +119,18 @@ public class Gui extends JFrame	{
 		public Object getValueAt(int row,int col) {return data[row][col];}
 		public Class getColumnClass(int c) {return getValueAt(0,c).getClass();}
 	}
+	//////////////////////////////////////////////////////
+	// 필요없는 클래스 다 지움
 	
 	public Gui() {
 		JPanel treepanel = new JPanel();
 		JPanel usepanel = new JPanel();
 		JPanel cardpanel = new JPanel();
+		JLabel uselabel = new JLabel("Use");
+		//�޼ҵ尡 ����ϴ� ������ ǥ���ϴ� ���ø��г� ����. ���ø����� ���� ������ �ܼ��� ũ�� ������ ���ؼ���.
+		JTextArea usetextarea = new JTextArea();
+		JSplitPane varpanel = new JSplitPane(1,false,usetextarea,new JPanel());
+		varpanel.setDividerLocation(200);
 		setTitle("C++ class viewer");
 		setSize(1000,420);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -116,15 +139,20 @@ public class Gui extends JFrame	{
 		treepanel.setBounds(10, 20, 390, 250);
 		add(usepanel);
 		usepanel.setBounds(10, 270, 390, 100);
+		usepanel.setLayout(new BorderLayout());
+		usepanel.add(uselabel,BorderLayout.NORTH);
+		usepanel.add(varpanel,BorderLayout.CENTER);
 		add(cardpanel);
 		cardpanel.setBounds(420, 50, 550, 300);
 		LineBorder border = new LineBorder(Color.black);
+		
 		treepanel.setBorder(border);
 		usepanel.setBorder(border);
+		varpanel.setBorder(border);
 		cardpanel.setBorder(border);
 		treepanel.setBackground(Color.white);
 		setVisible(true);
-		setResizable(false);
+		setResizable(true);
 		
 		ViewerTreeModel treemodel = new ViewerTreeModel(c);
 
@@ -138,82 +166,56 @@ public class Gui extends JFrame	{
         TableModel tablemodel = new TableModel();
         table = new JTable(tablemodel);
         table.setSize(550, 300);
-        VarTableModel vartablemodel = new VarTableModel();
-        vartable = new JTable(vartablemodel);
-        vartable.setSize(550,300);
         
+        
+        card = new CardLayout();
+        cardpanel.setLayout(card);
+        
+        ////////////////////////////////////////////////////////
+        for (int i = 0; i < c.getVariableCount(); i++) {
+        	VarTableModel tempVarTableModel = new VarTableModel(i);
+        	JTable tempVarTable = new JTable(tempVarTableModel);
+        	tempVarTable.setSize(550, 300);
+        	cardpanel.add("var" + i, tempVarTable);
+        	
+        }
+        // SizeTableModel, TopTableModel 등등은 다 지움.
+        //////////////////////////////////////////////////////////////////
         textarea = new JTextArea(30,500);
         textarea.setEditable(true);
         textarea.setCaretPosition(textarea.getDocument().getLength());
         
         
-        card = new CardLayout();
-        cardpanel.setLayout(card);
         cardpanel.add(table,"table");
         cardpanel.add(textarea,"textarea");
-        cardpanel.add(vartable,"vartable");
         cardpanel.setVisible(false);
-        
-       
         tree.addTreeSelectionListener(new TreeSelectionListener() {
 			
 			public void valueChanged(TreeSelectionEvent e) {
-				Object o = e.getPath().getLastPathComponent();
+				Object o = e.getPath().getLastPathComponent().toString();
 				if(o==treemodel.getRoot()) {
 					cardpanel.setVisible(true);
 					card.show(cardpanel, "table");
 				}
-				else if(o==treemodel.getChild(treemodel.getRoot(),0)) {
-					cardpanel.setVisible(true);
-					card.show(cardpanel, "textarea");
-					textarea.setText(c.getFormattedMethodContents(0));
+				else {
+					for (int i=0;i<c.getMethodCount()+c.getVariableCount();i++) {
+						if(i<c.getMethodCount()) {
+							if(o==treemodel.getChild(treemodel.getRoot(),i)) {
+								cardpanel.setVisible(true);
+								card.show(cardpanel, "textarea");
+								textarea.setText(c.getFormattedMethodContents(i));
+								usetextarea.setText(c.getVariablesUsedByMethod(i));
+								System.out.println(i);
+								break;
+							}
+						}
+						
+						else if( o.equals(treemodel.getChild(treemodel.getRoot(), i))) {
+							cardpanel.setVisible(true);	
+							card.show(cardpanel, "var" + (i - c.getMethodCount()));
+						}				
+					}
 				}
-				else if(o==treemodel.getChild(treemodel.getRoot(),1)) {
-					cardpanel.setVisible(true);
-					card.show(cardpanel, "textarea");
-					textarea.setText(c.getFormattedMethodContents(1));
-				}
-				else if(o==treemodel.getChild(treemodel.getRoot(),2)) {
-					cardpanel.setVisible(true);
-					card.show(cardpanel, "textarea");
-					textarea.setText(c.getFormattedMethodContents(2));
-				}
-				else if(o==treemodel.getChild(treemodel.getRoot(),3)) {
-					cardpanel.setVisible(true);
-					card.show(cardpanel, "textarea");
-					textarea.setText(c.getFormattedMethodContents(3));
-				}
-				else if(o==treemodel.getChild(treemodel.getRoot(),4)) {
-					cardpanel.setVisible(true);
-					card.show(cardpanel, "textarea");
-					textarea.setText(c.getFormattedMethodContents(4));
-				}
-				else if(o==treemodel.getChild(treemodel.getRoot(),5)) {
-					cardpanel.setVisible(true);
-					card.show(cardpanel, "textarea");
-					
-					textarea.setText(c.getFormattedMethodContents(5));
-				}
-				else if(o==treemodel.getChild(treemodel.getRoot(),6)) {
-					cardpanel.setVisible(true);
-					
-					vartablemodel.index =0;
-					
-					card.show(cardpanel, "vartable");
-					
-					
-				}
-				else if(o==treemodel.getChild(treemodel.getRoot(),7)) {
-					cardpanel.setVisible(true);
-					vartablemodel.index =1;
-					card.show(cardpanel, "vartable");
-				}
-				else if(o==treemodel.getChild(treemodel.getRoot(),8)) {
-					cardpanel.setVisible(true);
-					vartablemodel.index =2;
-					card.show(cardpanel, "vartable");
-				}
-				
 			}
 		});
 	}
