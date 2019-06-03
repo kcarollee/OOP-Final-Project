@@ -204,7 +204,6 @@ public class Gui extends JFrame	{
 								cardpanel.setVisible(true);
 								card.show(cardpanel, "textarea");
 								textarea.setText(c.getFormattedMethodContents(i));
-								usepanel.setVisible(true);
 								usetextarea.setText(c.getVariablesUsedByMethod(i));
 								System.out.println(i);
 								break;
@@ -213,7 +212,6 @@ public class Gui extends JFrame	{
 						
 						else if( o.equals(treemodel.getChild(treemodel.getRoot(), i))) {
 							cardpanel.setVisible(true);	
-							usepanel.setVisible(false);
 							card.show(cardpanel, "var" + (i - c.getMethodCount()));
 						}				
 					}

@@ -18,16 +18,18 @@ private:
 
 // end class stack
 
-int Stack::pop(              )      {
-                   if (!isEmpty()){
-                return ptr[top--];
-             }
-         exit(1);}
+
 void Stack::push(int v){
     if (!isFull()){
         ptr[++top] = v;
     } //  end if
 }
+
+int Stack::pop(              )      {
+                   if (!isEmpty()){
+                return ptr[top--];
+             }
+         exit(1);}
 
                Stack          ::         Stack(int  a)                     {
                     size = s > 0 ? s : 10;

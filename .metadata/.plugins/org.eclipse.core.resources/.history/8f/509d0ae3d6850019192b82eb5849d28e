@@ -204,7 +204,6 @@ public class Gui extends JFrame	{
 								cardpanel.setVisible(true);
 								card.show(cardpanel, "textarea");
 								textarea.setText(c.getFormattedMethodContents(i));
-								usepanel.setVisible(true);
 								usetextarea.setText(c.getVariablesUsedByMethod(i));
 								System.out.println(i);
 								break;
