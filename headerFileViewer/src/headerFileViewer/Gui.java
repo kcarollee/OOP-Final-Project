@@ -2,8 +2,6 @@ package headerFileViewer;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.event.*;
 import javax.swing.table.AbstractTableModel;
@@ -77,10 +75,9 @@ public class Gui extends JFrame	{
 	Parser p= new Parser("bin\\Stack.h");
 	Tokenizer t= new Tokenizer(p.getTextBuffer());
 	ClassInfo c= new ClassInfo(t.getDeclarationTokens(),t.getDefinitionTokens());
-	JTable table,sizetable,toptable,ptrtable;
+	JTable table;
 	CardLayout card;
 	JTextArea textarea;
-	
 	// 중요!
 	ArrayList<VarTableModel> varTableModelList = new ArrayList<VarTableModel>(); // 여기에 모델들을 담음
 	ArrayList<JTable> varTableList = new ArrayList<JTable>(); // 여기에 모델을 사용해 생성된 테이블들을 담음
@@ -127,14 +124,16 @@ public class Gui extends JFrame	{
 		JPanel usepanel = new JPanel();
 		JPanel cardpanel = new JPanel();
 		JLabel uselabel = new JLabel("Use");
-		//�޼ҵ尡 ����ϴ� ������ ǥ���ϴ� ���ø��г� ����. ���ø����� ���� ������ �ܼ��� ũ�� ������ ���ؼ���.
 		JTextArea usetextarea = new JTextArea();
+		Font font = new Font("custom",Font.PLAIN,20);
 		JSplitPane varpanel = new JSplitPane(1,false,usetextarea,new JPanel());
 		varpanel.setDividerLocation(200);
 		setTitle("C++ class viewer");
 		setSize(1000,420);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLayout(null);
+		card = new CardLayout();
+	    cardpanel.setLayout(card);
 		add(treepanel);
 		treepanel.setBounds(10, 20, 390, 250);
 		add(usepanel);
@@ -145,6 +144,9 @@ public class Gui extends JFrame	{
 		add(cardpanel);
 		cardpanel.setBounds(420, 50, 550, 300);
 		LineBorder border = new LineBorder(Color.black);
+		/*DefaultTreeCellRenderer renderer = (DefaultTreeCellRenderer)tree.getCellRenderer();
+		Icon leaficon = new ImageIcon("leaf.png");
+		renderer.setLeafIcon(leaficon);*/
 		
 		treepanel.setBorder(border);
 		usepanel.setBorder(border);
@@ -166,27 +168,27 @@ public class Gui extends JFrame	{
         TableModel tablemodel = new TableModel();
         table = new JTable(tablemodel);
         table.setSize(550, 300);
-        
-        
-        card = new CardLayout();
-        cardpanel.setLayout(card);
+        table.setRowHeight(30);
         
         ////////////////////////////////////////////////////////
         for (int i = 0; i < c.getVariableCount(); i++) {
         	VarTableModel tempVarTableModel = new VarTableModel(i);
         	JTable tempVarTable = new JTable(tempVarTableModel);
         	tempVarTable.setSize(550, 300);
-        	cardpanel.add("var" + i, tempVarTable);
+        	cardpanel.add("var" + i, new JScrollPane(tempVarTable));
+        	tempVarTable.setRowHeight(30);
         	
         }
         // SizeTableModel, TopTableModel 등등은 다 지움.
         //////////////////////////////////////////////////////////////////
         textarea = new JTextArea(30,500);
+        textarea.setFont(font);
         textarea.setEditable(true);
         textarea.setCaretPosition(textarea.getDocument().getLength());
+        usetextarea.setFont(font);
         
         
-        cardpanel.add(table,"table");
+        cardpanel.add(new JScrollPane(table),"table");
         cardpanel.add(textarea,"textarea");
         cardpanel.setVisible(false);
         tree.addTreeSelectionListener(new TreeSelectionListener() {
@@ -224,5 +226,4 @@ public class Gui extends JFrame	{
 	public static void main(String[] args) {
 		new Gui();
 	}
-
 }
