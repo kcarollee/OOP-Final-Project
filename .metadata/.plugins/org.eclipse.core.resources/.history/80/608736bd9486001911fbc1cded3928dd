@@ -17,6 +17,7 @@ public class Tokenizer {
     public class BracketStack{
     	private ArrayList<Character> brackets = new ArrayList<Character>();
     	private void addBracket(char c) {
+    		Character temp = c;
     		brackets.add(c);
     	}
     	
