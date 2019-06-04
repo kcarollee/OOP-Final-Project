@@ -7,7 +7,7 @@ public class Tokenizer {
     public ArrayList<String> definitionTokens = new ArrayList<String>();
     public int index = 0 ;
     public int bracketNum = 0;
-    public boolean noChar = false;
+    public boolean noChar = true;
     public boolean commentMode = false;
     public boolean parenthesisOpen = false;
     public KeyWords keyWords = new KeyWords();
@@ -17,6 +17,7 @@ public class Tokenizer {
     public class BracketStack{
     	private ArrayList<Character> brackets = new ArrayList<Character>();
     	private void addBracket(char c) {
+    		Character temp = c;
     		brackets.add(c);
     	}
     	
