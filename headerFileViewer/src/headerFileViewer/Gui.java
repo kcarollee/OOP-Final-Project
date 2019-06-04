@@ -10,7 +10,6 @@ import java.util.ArrayList;
 
 class ViewerTreeModel implements TreeModel{
     public ClassInfo c;
-
     public ViewerTreeModel(ClassInfo c){
         this.c = c;
     }
@@ -78,9 +77,9 @@ public class Gui extends JFrame	{
 	JTable table;
 	CardLayout card;
 	JTextArea textarea;
-	// 중요!
-	ArrayList<VarTableModel> varTableModelList = new ArrayList<VarTableModel>(); // 여기에 모델들을 담음
-	ArrayList<JTable> varTableList = new ArrayList<JTable>(); // 여기에 모델을 사용해 생성된 테이블들을 담음
+	// 以묒슂!
+	ArrayList<VarTableModel> varTableModelList = new ArrayList<VarTableModel>(); // �뿬湲곗뿉 紐⑤뜽�뱾�쓣 �떞�쓬
+	ArrayList<JTable> varTableList = new ArrayList<JTable>(); // �뿬湲곗뿉 紐⑤뜽�쓣 �궗�슜�빐 �깮�꽦�맂 �뀒�씠釉붾뱾�쓣 �떞�쓬
 	
 	class TableModel extends AbstractTableModel{		
 		Object[][] data = new Object[c.getMethodCount()+c.getVariableCount()][3];
@@ -100,9 +99,9 @@ public class Gui extends JFrame	{
 		public Object getValueAt(int row,int col) {return data[row][col];}
 		public Class getColumnClass(int c) {return getValueAt(0,c).getClass();}	
 	}
-	//���� ���̺� ���� ����
+	//占쏙옙占쏙옙 占쏙옙占싱븝옙 占쏙옙占쏙옙 占쏙옙占쏙옙
 	//////////////////////////////////////////////////////
-	// 변수 테이블 모델을 하나로 지정
+	// 蹂��닔 �뀒�씠釉� 紐⑤뜽�쓣 �븯�굹濡� 吏��젙
 	class VarTableModel extends AbstractTableModel{
 		Object[][] data = new Object[c.getVariableCount()][2];
 		public VarTableModel(int index){
@@ -117,7 +116,7 @@ public class Gui extends JFrame	{
 		public Class getColumnClass(int c) {return getValueAt(0,c).getClass();}
 	}
 	//////////////////////////////////////////////////////
-	// 필요없는 클래스 다 지움
+	// �븘�슂�뾾�뒗 �겢�옒�뒪 �떎 吏���
 	
 	public Gui() {
 		JPanel treepanel = new JPanel();
@@ -179,7 +178,7 @@ public class Gui extends JFrame	{
         	tempVarTable.setRowHeight(30);
         	
         }
-        // SizeTableModel, TopTableModel 등등은 다 지움.
+        // SizeTableModel, TopTableModel �벑�벑�� �떎 吏���.
         //////////////////////////////////////////////////////////////////
         textarea = new JTextArea(30,500);
         textarea.setFont(font);
@@ -187,7 +186,7 @@ public class Gui extends JFrame	{
         textarea.setCaretPosition(textarea.getDocument().getLength());
         usetextarea.setFont(font);
         
-        
+        //아무거나
         cardpanel.add(new JScrollPane(table),"table");
         cardpanel.add(textarea,"textarea");
         cardpanel.setVisible(false);
