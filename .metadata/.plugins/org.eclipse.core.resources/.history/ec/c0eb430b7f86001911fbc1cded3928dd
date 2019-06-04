@@ -13,7 +13,7 @@ public class Tokenizer {
     public KeyWords keyWords = new KeyWords();
     
     
-    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Â´Ù´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ï¿½ï¿½ ï¿½Ûµï¿½ï¿½Ç´ï¿½ ï¿½ï¿½ï¿½È£ ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ 
+    // ¹®¹ýÀÌ ¸Â´Ù´Â °¡Á¤ÇÏ¿¡¼­ ÀÛµ¿µÇ´Â ´ë°ýÈ£ ½ºÅÃ Å¬·¡½º 
     public class BracketStack{
     	private ArrayList<Character> brackets = new ArrayList<Character>();
     	private void addBracket(char c) {
@@ -56,25 +56,8 @@ public class Tokenizer {
         processDefinitions(mainTextBuffer);
     } 
     
-    
-    // ì„ ì–¸ë¶€ê°€ ëë‚¬ëŠ”ì§€ íŒë³„í•˜ëŠ” ë©”ì†Œë“œ 
-    public boolean declarationEnded(StringBuffer mainTextBuffer, int index) {
-    	int subIndex = 0;
-    	if (mainTextBuffer.charAt(index) == '}') {
-    		while (mainTextBuffer.substring(index + 1).charAt(subIndex + 1) != ';') {
-    			if (mainTextBuffer.substring(index + 1).charAt(subIndex + 1) != ' ')
-    				
-    				return false;    	
-    			else
-    				subIndex++;
-    		}
-    		return true;
-		}
-    	return false;
-    }
-    
    
-    // ï¿½ï¿½ ï¿½Þ¼Òµï¿½ï¿½ Tableï¿½ï¿½ï¿½ï¿½ï¿½ë¿¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å©ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô´Ï´ï¿½.
+    // ÀÌ ¸Þ¼Òµå´Â Table±¸Á¶¿ë¿¡ ¾²ÀÏ ÅäÅ©³ªÀÌÀúÀÔ´Ï´Ù.
     public void processDeclarations(StringBuffer mainTextBuffer){
         String temp = "";
         String temp2 = "";
@@ -85,35 +68,35 @@ public class Tokenizer {
                 bracketNum++;
                 index++;
             }
-            // Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½
-            if (declarationEnded(mainTextBuffer, i)) {
+            // Å¬·¡½º º¯¼ö ¼±¾ð Á¾·á È®ÀÎ
+            if (mainTextBuffer.charAt(i) == '}' && mainTextBuffer.charAt(i + 1) == ';') {
             	index++;
                 break;
             }
-            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½á°¡ ï¿½ÈµÆ´Ù¸ï¿½
+            // ¾ÆÁ÷ Á¾·á°¡ ¾ÈµÆ´Ù¸é
             else {
-                // ï¿½Ö¼ï¿½ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½
+                // ÁÖ¼®ÀÎÁö È®ÀÎ
                 if ((mainTextBuffer.charAt(i) == '/' && mainTextBuffer.charAt(i + 1) == '/')) {
                 
                 	commentMode = true;
                 }
-                // ï¿½Ö¼ï¿½ï¿½Ì¶ï¿½ï¿½
+                // ÁÖ¼®ÀÌ¶ó¸é
                 if (commentMode) {
                     if (mainTextBuffer.charAt(i) == '\r') {
                     	index++;
-                    	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¹Ç·ï¿½ commentModeï¿½ï¿½ falseï¿½ï¿½ ï¿½ï¿½È¯.
+                    	// ´ÙÀ½ÁÙÀ» ÀÐÀ» Â÷·ÊÀÌ¹Ç·Î commentMode´Â false·Î º¯È¯.
                         commentMode = false;
                     }
                     else {
                     	index++;
-                    	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½ '\r'ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
+                    	// ´ÙÀ½ÁÙ Ä³¸¯ÅÍ '\r'À» ÀÐÀ»¶§±îÁö ¹«½ÃÇÏ±â
                         continue;
                     }
                 }
-                // ï¿½Ö¼ï¿½ï¿½ï¿½ ï¿½Æ´Ï¶ï¿½ï¿½
+                // ÁÖ¼®ÀÌ ¾Æ´Ï¶ó¸é
                 else {
-                    // ï¿½ï¿½ï¿½È£ Ã³ï¿½ï¿½. Ã¹ï¿½ï¿½Â° ï¿½ï¿½ï¿½È£ï¿½ï¿½ ï¿½ï¿½ ï¿½Ê¿ï¿½. ï¿½Î¹ï¿½Â° ï¿½ï¿½ï¿½È£ï¿½ï¿½
-                    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼Òµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½Ö±ï¿½ 
+                    // ´ë°ýÈ£ Ã³¸®. Ã¹¹øÂ° ´ë°ýÈ£´Â ²À ÇÊ¿ä. µÎ¹øÂ° ´ë°ýÈ£°¡
+                    // ¿­¸®¸é ¸Þ¼Òµå ³»¿ë ½ºÆ®¸µ¿¡ ³Ö±â 
                     if (bracketNum > 1){
                         if (mainTextBuffer.charAt(i) != '}') {
                         	index++;
@@ -133,26 +116,26 @@ public class Tokenizer {
                         }
                     }
                     else {
-                    	// ï¿½Ò°ï¿½È£ï¿½ï¿½ ï¿½ï¿½ï¿½È´Ù¸ï¿½
+                    	// ¼Ò°ýÈ£°¡ ¿­·È´Ù¸é
                         if (mainTextBuffer.charAt(i) == '(') {
                         	index++;
-                        	// ï¿½ï¿½È£ ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½Å«ï¿½ï¿½ ï¿½ï¿½î°¡ï¿½ï¿½ï¿½Õ´Ï´ï¿½. 
+                        	// °ýÈ£ ÀÚÃ¼´Â ÅäÅ«¿¡ µé¾î°¡¾ßÇÕ´Ï´Ù. 
                         	temp += mainTextBuffer.charAt(i);
-                            // ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½×¸ï¿½ trueï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+                            // ¿­¸² ÇÃ·¡±×¸¦ true·Î ¼³Á¤
                             parenthesisOpen = true;
                         }
                         else {
-                        	// ï¿½Ò°ï¿½È£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½Â¶ï¿½ï¿½
+                        	// ¼Ò°ýÈ£°¡ ¿­·ÁÀÖ´Â »óÅÂ¶ó¸é
                             if (parenthesisOpen) {
-                            	// ï¿½Ò°ï¿½È£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ù¸ï¿½
+                            	// ¼Ò°ýÈ£°¡ ´ÝÇû´Ù¸é
                                 if (mainTextBuffer.charAt(i) == ')') {
                                 	index++;
-                                	// ï¿½ï¿½È£ ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½Å«ï¿½ï¿½ ï¿½ï¿½î°¡ï¿½ï¿½ ï¿½Õ´Ï´ï¿½. 
+                                	// °ýÈ£ ÀÚÃ¼´Â ÅäÅ«¿¡ µé¾î°¡¾ß ÇÕ´Ï´Ù. 
                                 	temp += mainTextBuffer.charAt(i);
-                                	// ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½×¸ï¿½ falseï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+                                	// ¿­¸² ÇÃ·¡±×¸¦ false·Î ¼³Á¤
                                     parenthesisOpen = false;
                                 }
-                                // ï¿½Ô¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½. 
+                                // ÇÔ¼ö°¡ º¯¼ö¸¦ ¹ÞÀ»¶§¸¦ °í·Á. 
                                 else {
                                 	if (isChar(mainTextBuffer.charAt(i))) {
                                 		if (!isTypeKeyWord(temp2)){
@@ -167,12 +150,12 @@ public class Tokenizer {
                                 	}
                                 	else {
                                 	index++;
-                                	// ï¿½ï¿½È£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½.
+                                	// °ýÈ£°¡ ´ÝÈú¶§±îÁö ¹«½ÃÇÏ±â.
                                     continue;
                                 	}
                                 }
                             }
-                            // ï¿½Ò°ï¿½È£ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Øµï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½
+                            // ¼Ò°ýÈ£ °í·Á¸¦ ¾ÈÇØµµ µÉ °æ¿ì
                             else {
                                 if (isCharOrParenthesis(mainTextBuffer.charAt(i))) {
                                 	index++;
@@ -197,7 +180,7 @@ public class Tokenizer {
         }
     }
     
-    // ï¿½Þ¼Òµï¿½ ï¿½Ò½ï¿½ ï¿½Úµï¿½ Ç¥ï¿½Ã¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼Òµï¿½. 
+    // ¸Þ¼Òµå ¼Ò½º ÄÚµå Ç¥½Ã¿¡ ¾²ÀÏ ¸Þ¼Òµå. 
     public void processDefinitions(StringBuffer mainTextBuffer){
     	commentMode = false;
     	boolean blockInitiated = false;
@@ -211,48 +194,48 @@ public class Tokenizer {
     		 if ((mainTextBuffer.charAt(i) == '/' && mainTextBuffer.charAt(i + 1) == '/')) {
              	commentMode = true;
              }
-             // ï¿½Ö¼ï¿½ï¿½Ì¶ï¿½ï¿½
+             // ÁÖ¼®ÀÌ¶ó¸é
              if (commentMode) {
                  if (mainTextBuffer.charAt(i) == '\r') {
                  	
-                 	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¹Ç·ï¿½ commentModeï¿½ï¿½ falseï¿½ï¿½ ï¿½ï¿½È¯.
+                 	// ´ÙÀ½ÁÙÀ» ÀÐÀ» Â÷·ÊÀÌ¹Ç·Î commentMode´Â false·Î º¯È¯.
                      commentMode = false;
                  }
                  else {
                  	
-                 	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½ '\r'ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
+                 	// ´ÙÀ½ÁÙ Ä³¸¯ÅÍ '\r'À» ÀÐÀ»¶§±îÁö ¹«½ÃÇÏ±â
                      continue;
                  }
              }
-             // ï¿½Ö¼ï¿½ï¿½ï¿½ ï¿½Æ´Ï¶ï¿½ï¿½
+             // ÁÖ¼®ÀÌ ¾Æ´Ï¶ó¸é
              else {
-            	 // ::ï¿½ï¿½ï¿½Ä·Îºï¿½ï¿½ï¿½ ï¿½Þ¼Òµï¿½ ï¿½Ì¸ï¿½ ï¿½Þ±ï¿½ 
+            	 // ::ÀÌÈÄ·ÎºÎÅÍ ¸Þ¼Òµå ÀÌ¸§ ¹Þ±â 
             	 if ((mainTextBuffer.charAt(i) == ':' && mainTextBuffer.charAt(i + 1) == ':')) {
             		 gettingMethodName = true;
             	 }
             	 
             	 if (gettingMethodName) {
-            		// ï¿½Ò°ï¿½È£ï¿½ï¿½ ï¿½ï¿½ï¿½È´Ù¸ï¿½
+            		// ¼Ò°ýÈ£°¡ ¿­·È´Ù¸é
                      if (mainTextBuffer.charAt(i) == '(') {
                      	
-                     	// ï¿½ï¿½È£ ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½Å«ï¿½ï¿½ ï¿½ï¿½î°¡ï¿½ï¿½ï¿½Õ´Ï´ï¿½. 
+                     	// °ýÈ£ ÀÚÃ¼´Â ÅäÅ«¿¡ µé¾î°¡¾ßÇÕ´Ï´Ù. 
                      	temp += mainTextBuffer.charAt(i);
-                         // ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½×¸ï¿½ trueï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+                         // ¿­¸² ÇÃ·¡±×¸¦ true·Î ¼³Á¤
                          parenthesisOpen = true;
                      }
                      else {
-                     	// ï¿½Ò°ï¿½È£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½Â¶ï¿½ï¿½
+                     	// ¼Ò°ýÈ£°¡ ¿­·ÁÀÖ´Â »óÅÂ¶ó¸é
                          if (parenthesisOpen) {
-                         	// ï¿½Ò°ï¿½È£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ù¸ï¿½
+                         	// ¼Ò°ýÈ£°¡ ´ÝÇû´Ù¸é
                              if (mainTextBuffer.charAt(i) == ')') {
                              	
-                             	// ï¿½ï¿½È£ ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½Å«ï¿½ï¿½ ï¿½ï¿½î°¡ï¿½ï¿½ ï¿½Õ´Ï´ï¿½. 
+                             	// °ýÈ£ ÀÚÃ¼´Â ÅäÅ«¿¡ µé¾î°¡¾ß ÇÕ´Ï´Ù. 
                              	temp += mainTextBuffer.charAt(i);
-                             	// ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½×¸ï¿½ falseï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+                             	// ¿­¸² ÇÃ·¡±×¸¦ false·Î ¼³Á¤
                                  parenthesisOpen = false;
                                  methodNameParsed = true;
                              }
-                             // ï¿½Ô¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½. 
+                             // ÇÔ¼ö°¡ º¯¼ö¸¦ ¹ÞÀ»¶§¸¦ °í·Á. 
                              else {
                              	if (isChar(mainTextBuffer.charAt(i))) {
                              		if (!isTypeKeyWord(temp2)){
@@ -265,12 +248,12 @@ public class Tokenizer {
                              	}
                              	else {
                              	
-                             	// ï¿½ï¿½È£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½.
+                             	// °ýÈ£°¡ ´ÝÈú¶§±îÁö ¹«½ÃÇÏ±â.
                                  continue;
                              	}
                              }
                          }
-                         // ï¿½Ò°ï¿½È£ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Øµï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½
+                         // ¼Ò°ýÈ£ °í·Á¸¦ ¾ÈÇØµµ µÉ °æ¿ì
                          else {
                              if (isCharOrParenthesis(mainTextBuffer.charAt(i))) {
                              	temp += mainTextBuffer.charAt(i);   

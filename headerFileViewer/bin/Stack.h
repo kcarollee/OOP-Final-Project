@@ -8,10 +8,15 @@ protected:
     bool isEmpty(); // determine whether Stack is empty
     bool isFull(); // determine whether Stack is full
 private:
-    int size; // # of elements in the stacks
+    bool size; // # of elements in the stacks
     int top; // location of the top element
     int *ptr // pointer to the stack
-}; 
+
+
+
+
+}                 ; 
+
 
 
 
@@ -22,6 +27,7 @@ private:
 void Stack::push(int v){
     if (!isFull()){
         ptr[++top] = v;
+	
     } //  end if
 }
 

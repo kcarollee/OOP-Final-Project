@@ -1,9 +1,0 @@
-package headerFileViewer;
-
-import java.util.ArrayList;
-
-public class VariableInfo {
-	public String name;
-	public String type;
-	public ArrayList<MethodInfo> usedMethods = new ArrayList<MethodInfo>();
-}
