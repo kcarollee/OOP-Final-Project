@@ -4,18 +4,22 @@ public:
     ~Stack(){delete[] ptr;} // destructor
     void push(int v); // push an element onto the stack
     int pop(); // pop an element off the stack
+private:
+   int *ptr // pointer to the stack    
+
+  bool size; // # of elements in the stacks
+    int top; // location of the top element
+   
+
 protected:
     bool isEmpty(); // determine whether Stack is empty
     bool isFull(); // determine whether Stack is full
-private:
-    bool size; // # of elements in the stacks
-    int top; // location of the top element
-    int *ptr // pointer to the stack
 
 
 
 
-}                 ; 
+
+}              ; 
 
 
 
@@ -40,7 +44,8 @@ int Stack::pop(              )      {
                Stack          ::         Stack(int  a)                     {
                     size = s > 0 ? s : 10;
                  top = -1;
-              ptr = new int[size];}
+              ptr = new int[size];
+}
 
 
 
