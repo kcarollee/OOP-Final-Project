@@ -69,7 +69,7 @@ class ViewerTreeModel implements TreeModel{
 
 }
 
-public class Gui extends JFrame	{
+public class Gui extends JFrame	implements ActionListener{
 	public JTree tree;
 	Parser p= new Parser("bin\\Stack.h");
 	Tokenizer t= new Tokenizer(p.getTextBuffer());
@@ -77,6 +77,7 @@ public class Gui extends JFrame	{
 	JTable table;
 	CardLayout card;
 	JTextArea textarea;
+	JMenuItem exit;
 	// 以묒슂!
 	ArrayList<VarTableModel> varTableModelList = new ArrayList<VarTableModel>(); // �뿬湲곗뿉 紐⑤뜽�뱾�쓣 �떞�쓬
 	ArrayList<JTable> varTableList = new ArrayList<JTable>(); // �뿬湲곗뿉 紐⑤뜽�쓣 �궗�슜�빐 �깮�꽦�맂 �뀒�씠釉붾뱾�쓣 �떞�쓬
@@ -126,9 +127,20 @@ public class Gui extends JFrame	{
 		JTextArea usetextarea = new JTextArea();
 		Font font = new Font("custom",Font.PLAIN,20);
 		JSplitPane varpanel = new JSplitPane(1,false,usetextarea,new JPanel());
+		
+		JMenuBar menubar = new JMenuBar();
+		JMenuItem exit = new JMenuItem("Exit");
+		exit.addActionListener(this);
+		JMenu menu = new JMenu("File");
+		menu.add(new JMenuItem("Open"));
+		menu.add(new JMenuItem("Save"));
+		menu.add(exit);
+		menubar.add(menu);
+		setJMenuBar(menubar);
+		
 		varpanel.setDividerLocation(200);
 		setTitle("C++ class viewer");
-		setSize(1000,420);
+		setSize(1000,450);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLayout(null);
 		card = new CardLayout();
@@ -190,6 +202,8 @@ public class Gui extends JFrame	{
         cardpanel.add(new JScrollPane(table),"table");
         cardpanel.add(textarea,"textarea");
         cardpanel.setVisible(false);
+        
+        
         tree.addTreeSelectionListener(new TreeSelectionListener() {
 			
 			public void valueChanged(TreeSelectionEvent e) {
@@ -224,5 +238,10 @@ public class Gui extends JFrame	{
 	}
 	public static void main(String[] args) {
 		new Gui();
+	}
+	public void actionPerformed(ActionEvent evt) {
+		Object source = evt.getSource();
+		if(source.equals(exit))
+			System.exit(0);
 	}
 }

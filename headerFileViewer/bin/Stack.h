@@ -10,7 +10,7 @@ public:
     ~Stack(){delete[] ptr;} // destructor
 
 
-    void push  (int v); // push an element onto the stack
+    void push(int v); // push an element onto the stack
 
 
 
