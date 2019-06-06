@@ -129,14 +129,14 @@ public class Gui extends JFrame	implements ActionListener{
 		JSplitPane varpanel = new JSplitPane(1,false,usetextarea,new JPanel());
 		
 		JMenuBar menubar = new JMenuBar();
-		JMenuItem exit = new JMenuItem("Exit");
-		exit.addActionListener(this);
+		setJMenuBar(menubar);
 		JMenu menu = new JMenu("File");
+		JMenuItem exit = new JMenuItem("Exit");
 		menu.add(new JMenuItem("Open"));
 		menu.add(new JMenuItem("Save"));
 		menu.add(exit);
 		menubar.add(menu);
-		setJMenuBar(menubar);
+		exit.addActionListener(this);
 		
 		varpanel.setDividerLocation(200);
 		setTitle("C++ class viewer");
@@ -241,7 +241,7 @@ public class Gui extends JFrame	implements ActionListener{
 	}
 	public void actionPerformed(ActionEvent evt) {
 		Object source = evt.getSource();
-		if(source.equals(exit))
-			System.exit(0);
+		System.exit(0);
+		//dispose();
 	}
 }
