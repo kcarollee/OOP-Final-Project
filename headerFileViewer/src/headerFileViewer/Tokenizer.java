@@ -13,7 +13,7 @@ public class Tokenizer {
     public KeyWords keyWords = new KeyWords();
     
     
-    // ������ �´ٴ� �����Ͽ��� �۵��Ǵ� ���ȣ ���� Ŭ���� 
+
     public class BracketStack{
     	private ArrayList<Character> brackets = new ArrayList<Character>();
     	private void addBracket(char c) {
@@ -56,7 +56,7 @@ public class Tokenizer {
     } 
     
     
-    // 선언부가 끝났는지 판별하는 메소드 
+
     public boolean declarationEnded(StringBuffer mainTextBuffer, int index) {
     	int subIndex = 0;
     	if (mainTextBuffer.charAt(index) == '}') {
@@ -75,9 +75,17 @@ public class Tokenizer {
 		}
     	return false;
     }
-    
-   
-    // �� �޼ҵ�� Table�����뿡 ���� ��ũ�������Դϴ�.
+
+    // this is the solution for the parenthesis bug.
+    public boolean parenthesisAhead(StringBuffer mainTextBuffer, int index){
+    	int i = 0;
+    	while (mainTextBuffer.substring(index).charAt(i++) == ' '){
+    		if (mainTextBuffer.substring(index).charAt(i) == '(' || mainTextBuffer.substring(index).charAt(i) == '{')
+    			return true;
+		}
+    	return false;
+	}
+
     public void processDeclarations(StringBuffer mainTextBuffer){
         String temp = "";
         String temp2 = "";
@@ -88,35 +96,34 @@ public class Tokenizer {
                 bracketNum++;
                 index++;
             }
-            // Ŭ���� ���� ���� ���� Ȯ��
+
             if (declarationEnded(mainTextBuffer, i)) {
             	index++;
                 break;
             }
-            // ���� ���ᰡ �ȵƴٸ�
+
             else {
-                // �ּ����� Ȯ��
+
                 if ((mainTextBuffer.charAt(i) == '/' && mainTextBuffer.charAt(i + 1) == '/')) {
                 
                 	commentMode = true;
                 }
-                // �ּ��̶��
+
                 if (commentMode) {
                     if (mainTextBuffer.charAt(i) == '\r') {
                     	index++;
-                    	// �������� ���� �����̹Ƿ� commentMode�� false�� ��ȯ.
+
                         commentMode = false;
                     }
                     else {
                     	index++;
-                    	// ������ ĳ���� '\r'�� ���������� �����ϱ�
+
                         continue;
                     }
                 }
-                // �ּ��� �ƴ϶��
+
                 else {
-                    // ���ȣ ó��. ù��° ���ȣ�� �� �ʿ�. �ι�° ���ȣ��
-                    // ������ �޼ҵ� ���� ��Ʈ���� �ֱ� 
+
                     if (bracketNum > 1){
                         if (mainTextBuffer.charAt(i) != '}') {
                         	index++;
@@ -136,26 +143,26 @@ public class Tokenizer {
                         }
                     }
                     else {
-                    	// �Ұ�ȣ�� ���ȴٸ�
+
                         if (mainTextBuffer.charAt(i) == '(') {
                         	index++;
-                        	// ��ȣ ��ü�� ��ū�� �����մϴ�. 
+
                         	temp += mainTextBuffer.charAt(i);
-                            // ���� �÷��׸� true�� ����
+
                             parenthesisOpen = true;
                         }
                         else {
-                        	// �Ұ�ȣ�� �����ִ� ���¶��
+
                             if (parenthesisOpen) {
-                            	// �Ұ�ȣ�� �����ٸ�
+
                                 if (mainTextBuffer.charAt(i) == ')') {
                                 	index++;
-                                	// ��ȣ ��ü�� ��ū�� ���� �մϴ�. 
+
                                 	temp += mainTextBuffer.charAt(i);
-                                	// ���� �÷��׸� false�� ����
+
                                     parenthesisOpen = false;
                                 }
-                                // �Լ��� ������ �������� ���. 
+
                                 else {
                                 	if (isChar(mainTextBuffer.charAt(i))) {
                                 		if (!isTypeKeyWord(temp2)){
@@ -170,12 +177,12 @@ public class Tokenizer {
                                 	}
                                 	else {
                                 	index++;
-                                	// ��ȣ�� ���������� �����ϱ�.
+
                                     continue;
                                 	}
                                 }
                             }
-                            // �Ұ�ȣ ����� ���ص� �� ���
+
                             else {
                                 if (isCharOrParenthesis(mainTextBuffer.charAt(i))) {
                                 	index++;
@@ -184,10 +191,16 @@ public class Tokenizer {
                                 }
                                 else {
                                     if (noChar) {
-                                    	index++;
-                                    	noChar = false;
-                                        declarationTokens.add(temp);
-                                        temp = "";
+                                    	if (parenthesisAhead(mainTextBuffer, i)){
+                                    		index++;
+                                    		noChar = true;
+										}
+                                    	else {
+											index++;
+											noChar = false;
+											declarationTokens.add(temp);
+											temp = "";
+										}
                                     }
                                     else
                                     	index++;
@@ -200,7 +213,7 @@ public class Tokenizer {
         }
     }
     
-    // �޼ҵ� �ҽ� �ڵ� ǥ�ÿ� ���� �޼ҵ�. 
+
     public void processDefinitions(StringBuffer mainTextBuffer){
     	commentMode = false;
     	boolean blockInitiated = false;
@@ -214,48 +227,48 @@ public class Tokenizer {
     		 if ((mainTextBuffer.charAt(i) == '/' && mainTextBuffer.charAt(i + 1) == '/')) {
              	commentMode = true;
              }
-             // �ּ��̶��
+
              if (commentMode) {
                  if (mainTextBuffer.charAt(i) == '\r') {
                  	
-                 	// �������� ���� �����̹Ƿ� commentMode�� false�� ��ȯ.
+
                      commentMode = false;
                  }
                  else {
                  	
-                 	// ������ ĳ���� '\r'�� ���������� �����ϱ�
+
                      continue;
                  }
              }
-             // �ּ��� �ƴ϶��
+
              else {
-            	 // ::���ķκ��� �޼ҵ� �̸� �ޱ� 
+
             	 if ((mainTextBuffer.charAt(i) == ':' && mainTextBuffer.charAt(i + 1) == ':')) {
             		 gettingMethodName = true;
             	 }
             	 
             	 if (gettingMethodName) {
-            		// �Ұ�ȣ�� ���ȴٸ�
+
                      if (mainTextBuffer.charAt(i) == '(') {
                      	
-                     	// ��ȣ ��ü�� ��ū�� �����մϴ�. 
+
                      	temp += mainTextBuffer.charAt(i);
-                         // ���� �÷��׸� true�� ����
+
                          parenthesisOpen = true;
                      }
                      else {
-                     	// �Ұ�ȣ�� �����ִ� ���¶��
+
                          if (parenthesisOpen) {
-                         	// �Ұ�ȣ�� �����ٸ�
+
                              if (mainTextBuffer.charAt(i) == ')') {
                              	
-                             	// ��ȣ ��ü�� ��ū�� ���� �մϴ�. 
+
                              	temp += mainTextBuffer.charAt(i);
-                             	// ���� �÷��׸� false�� ����
+
                                  parenthesisOpen = false;
                                  methodNameParsed = true;
                              }
-                             // �Լ��� ������ �������� ���. 
+
                              else {
                              	if (isChar(mainTextBuffer.charAt(i))) {
                              		if (!isTypeKeyWord(temp2)){
@@ -268,12 +281,12 @@ public class Tokenizer {
                              	}
                              	else {
                              	
-                             	// ��ȣ�� ���������� �����ϱ�.
+
                                  continue;
                              	}
                              }
                          }
-                         // �Ұ�ȣ ����� ���ص� �� ���
+
                          else {
                              if (isCharOrParenthesis(mainTextBuffer.charAt(i))) {
                              	temp += mainTextBuffer.charAt(i);   

@@ -1,0 +1,122 @@
+package headerFileViewer;
+
+import javax.swing.tree.*;
+import javax.swing.event.*;
+import javax.swing.*;
+import java.awt.event.*;
+import java.awt.*;
+
+/************************************************************************************************************************************************
+ *                                                    GETTER MANUAL
+ * 
+ * Class                                              Method                               Description 
+ * Parser(String address)                             getTextBuffer()                      address�� �ּҿ� �ִ� �ؽ�Ʈ�� StringBuffer�� ��� �װ��� ��ȯ
+ * 
+ * Tokenizer(StringBuffer mainText)                   getDeclarationTokens()               Stack.h�� ���� �ʵ��� �ؽ�Ʈ�� �м� �� ��ūȭ�Ͽ� ArrayString ��ȯ.
+ *                                                    getDefinitionTokens()                Stack.h�� �Լ� ���� �ʵ��� �ؽ�Ʈ�� �м� �� ��ūȭ�Ͽ� ArrayString ��ȯ.
+ * 
+ * ClassInfo(ArrayString<String> decText,             getClassName()           		            Ŭ������ �̸� ��ȯ
+ *           ArrayString<String> defText)             
+ *                                                    getName(int index)                   ���̺� ������ �ʿ��� index��°�� �ִ� ���� �޼ҵ� �� ���� �̸� ��Ʈ���� ��ȯ
+ *                                                    getType(int index)                   ���̺� ������ �ʿ��� index��°�� �ִ� Ÿ�� �̸� ��Ʈ���� ��ȯ
+ *                                                    getAccess(int index)                 ���̺� ������ �ʿ��� index��°�� �ִ� ���� ���� ������ ��Ʈ���� ��ȯ
+ *                                                    (�� �� �޼ҵ��� index�� 0���� �����ϰ� ���� �࿡ �ִ� �͵��� index�� ���ƾ� �Ѵٴ� �Ϳ� ����)
+ *                                                    
+ *                                                    getMethodName(int index)             Ʈ�� ������ �ʿ��� index��°�� �ִ� �޼ҵ��� �̸� ��Ʈ���� ��ȯ
+ *                                                    getFormattedMethodContents(int index)index��°�� �ִ� �޼ҵ��� ���� ��Ʈ���� ��ȯ
+ *                                                    getVariablesUsedByMethod(int index)  index��°�� �ִ� �޼ҵ忡 ����  ���� ����Ʈ�� ��ȯ
+ *                                                    
+ *                                                    getFormattedVariableName(int index)  Ʈ�� ������ �ʿ��� index��°�� �ִ� Ÿ���� ���� ������ �̸� ��Ʈ���� ��ȯ
+ *                                                    getVariableName(int index)           index��°�� �ִ� ������ �̸� ��Ʈ���� ��ȯ
+ *                                                    getMethodsThatUseVariable(int index) index��°�� �ִ� ������ ����ϴ� �޼ҵ��� ����Ʈ�� ��ȯ
+ *                                                    
+ *                                                    getMethodCount()                     �޼ҵ��� ������ ��ȯ
+ *                                                    getVariableCount()                   ������ ������ ��ȯ
+ *////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+public class MainApp {
+
+    public MainApp(){
+        Parser p = new Parser("bin\\Stack.h");
+        Tokenizer t = new Tokenizer(p.getTextBuffer());
+        ClassInfo c = new ClassInfo(t.getDeclarationTokens(), t.getDefinitionTokens());
+    }
+		
+    public static void main(String[] args){
+        Parser p = new Parser("bin\\Stack.h");
+        Tokenizer t = new Tokenizer(p.getTextBuffer());
+        System.out.println("---------------------Testing declaration tokens-----------------");
+        for (String i : t.getDeclarationTokens()){
+            System.out.println(i);
+        }
+        ClassInfo c = new ClassInfo(t.getDeclarationTokens(), t.getDefinitionTokens());
+        System.out.println("---------------------Testing table------------------------------");
+        c.printTable();
+        System.out.println("---------------------Testing member variables-------------------");
+        for (String i : c.getMemberVariables()) {
+        	System.out.println(i);
+        }
+        System.out.println("---------------------Testing definition tokens------------------");
+        for (String i : t.getDefinitionTokens()){
+            System.out.println(i);
+            System.out.println("-------------------------------------------------------------");
+        }
+        
+        System.out.println("---------------------Testing methodInfo--------------------------");
+        c.printMethods();
+        System.out.println("------------------Testing VariableInfo---------------------------");
+        c.printVariables();
+        
+        
+        System.out.println("***********************FINAL TEST********************************");
+        System.out.println("********************* TESTING TABLE******************************");
+        for (int i = 0; i < 9; i++) {
+        	// ���̺� ���� �̸�, �ڷ���, ���������� �ҷ�����
+        	System.out.println(c.getName(i) + " " + c.getType(i)+ " " + c.getAccess(i));
+        }
+        System.out.println("***********************TESTING TREE******************************");
+        // Ŭ���� �̸� �ҷ����� -> Ʈ�� ������ �����
+        System.out.println("Class Name: " + c.getClassName());
+        // �޼ҵ� �̸��� -> Ŭ���� �̸� �ٷ� �ؿ� ����
+        for (int i = 0; i < 6; i++) {
+        	// i ��° �ε����� �ִ� �޼ҵ��� �̸� ��������
+        	System.out.println("Method Name at index " + i + ": " + c.getMethodName(i));
+        }
+        // ���� �̸��� -> �޼ҵ� �̸��� �ٷ� �ؿ� ����
+        for (int i = 0; i < 3; i++) {
+        	// i ��° �ε����� �ִ� ������ ���ĵ� ����(�̸� : �ڷ���)�� �̸� ��������
+        	System.out.println("Formatted variable name at index " + i + ": " + c.getFormattedVariableName(i));
+        }
+        System.out.println("******************TESTING METHOD CONTENTS************************");
+        for (int i = 0; i < 6; i++) {
+        	System.out.println("Formatted content of method at index " + i + ": ");
+        	// �޼ҵ��� ���� ��������
+        	System.out.println(c.getFormattedMethodContents(i) + "\n");
+        	System.out.println("Variables used in method at index " + i + ": ");
+        	// �޼ҵ尡 ���� ���� ����Ʈ ��������
+        	System.out.println(c.getVariablesUsedByMethod(i));
+        	System.out.println("--------------------------------------------------------------");    
+        }
+        
+       
+        System.out.println("*******************TESTING VARIABLES*****************************");
+        for (int i = 0; i < 3; i++) {
+        	
+        	System.out.println("Variable name at index " + i + ": " + c.getVariableName(i));
+        	System.out.println("Methods this variable is used in: ");
+        	
+        	System.out.println(c.getMethodsThatUseVariable(i));
+        	System.out.println("--------------------------------------------------------------");   
+        }
+        System.out.println(c.getMethodCount() + " " +  c.getVariableCount());
+        
+ 
+        MainApp m = new MainApp();
+        
+    }
+
+}
+    
+    
+
+
