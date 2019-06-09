@@ -7,13 +7,9 @@ public class ClassInfo  {
 
     public int methodCount = 0;
     public int variableCount = 0;
-    // ������ String �迭�� �迭����Ʈ�Դϴ�. ���� String[]�� ũ�� 3�� ��Ʈ�� �迭�ε�
-    // 0�ε������� �޼ҵ��� �̸�, 1�ε������� �޼ҵ��� ��ȯ��, 2�ε������� ���������ڰ� ���ϴ�.
     public ArrayList<String[]> tableArray = new ArrayList<String[]>();
     public ArrayList<String> declarationTokens;
     public ArrayList<String> definitionTokens;
-
-    // ���� �� �迭����Ʈ���� Tree�� ������ ���Դϴ�.
     public ArrayList<MethodInfo> methodList = new ArrayList<MethodInfo>();
     public ArrayList<VariableInfo> variableList = new ArrayList<VariableInfo>();
 
@@ -21,7 +17,7 @@ public class ClassInfo  {
     public String currentAccessSpecifier = new String();
     public String currentType = new String();
 
-    // MethodInfo�� ���� ��� ������ ����Ʈ�Դϴ�.
+    
     public ArrayList<String> memberVariables = new ArrayList<String>();
 
     public ClassInfo(ArrayList<String> declarationTokens, ArrayList<String> definitionTokens){
@@ -39,9 +35,9 @@ public class ClassInfo  {
         return className;
     }
 
-    // ���̺���
+    
     public void processDeclarationTokens(){
-        // Ŭ���� ���� ���κ��� �����ϱ�
+      
         for (int i = 2; i < declarationTokens.size(); i++) {
 
             if (isAccessSpecifier(declarationTokens.get(i))) {
@@ -60,11 +56,11 @@ public class ClassInfo  {
                 tableRow[2] = currentAccessSpecifier;
                 tableArray.add(tableRow);
             }
-            // ������ ����
+           
             else if (isPointer(declarationTokens.get(i))) {
                 String[] tableRow = new String[3];
-                tableRow[0] = declarationTokens.get(i).substring(1); // *ptr�� *�� �����ֱ�
-                tableRow[1] = currentType + "*"; // int* ó�� � ������ ���������� �˷���
+                tableRow[0] = declarationTokens.get(i).substring(1); 
+                tableRow[1] = currentType + "*";
                 tableRow[2] = currentAccessSpecifier;
                 tableArray.add(tableRow);
             }
@@ -79,10 +75,10 @@ public class ClassInfo  {
             }
         }
     }
-    // Ʈ�� �� �޼ҵ� ���ÿ�
+  
     public void processDefinitionTokens() {
         for (int i = 0; i < definitionTokens.size(); i += 2) {
-            // i�� ¦���� ��� �޼ҵ� �̸�, Ȧ���� ��� �޼ҵ� ����.
+           
             MethodInfo method = new MethodInfo(definitionTokens.get(i), definitionTokens.get(i + 1));
             methodList.add(method);
             methodCount++;
@@ -95,7 +91,7 @@ public class ClassInfo  {
     }
 
 
-    // �ڷ� ���ÿ�
+    
     public void addVariableInfo() {
         for (String[] s : tableArray) {
             if (stringIsMethodName(s[0]))
@@ -112,7 +108,7 @@ public class ClassInfo  {
     public int getVariableCount(){
         return variableCount;
     }
-    // �ڷ� ���ý� �񱳿�
+    
     public void addMethodsToVariableInfo() {
         for (VariableInfo variable : variableList) {
             for (MethodInfo method : methodList) {
@@ -137,7 +133,7 @@ public class ClassInfo  {
 
             else if (name.charAt(i) == ')') {
                 parenthesisOpen = false;
-                //temp += name.charAt(i);
+               
             }
             if (parenthesisOpen) {
                 continue;
@@ -289,49 +285,7 @@ public class ClassInfo  {
             return true;
         return false;
 
-    	/*
-
-    	if (name.charAt(name.length() - 2) == '(' && name.charAt(name.length() - 1) == ')') {
-    		return true;
-    	}
-    	else
-    		return false;
-    	*/
+  
     }
 
-
-
-    // testing table
-    public void printTable() {
-        for (String[] row : tableArray) {
-            for (int i = 0; i < row.length; i++) {
-                System.out.print(row[i] + " ");
-            }
-            System.out.println();
-        }
-    }
-
-    // testing methodInfo
-    public void printMethods() {
-        for (MethodInfo m : methodList) {
-            System.out.println("------------------Method Name-------------------");
-            System.out.println(m.getName());
-            System.out.println("----------------Method Contents 2-----------------");
-            m.showMethodContents();
-            System.out.println("-----------------Method Tokens---------------------");
-            m.showPureStringTokens();
-            System.out.println("------------Method's Member Variables--------------");
-            m.showUsedMemberVariables();
-        }
-    }
-
-    // testing variableInfo
-    public void printVariables() {
-        for (VariableInfo v : variableList) {
-            System.out.println("----------------Variable Name--------------------");
-            System.out.println(v.getName());
-            System.out.println("--------Methods this variable is used in---------");
-            v.showUsedMethods();
-        }
-    }
 }

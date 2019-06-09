@@ -78,10 +78,9 @@ public class Gui extends JFrame	implements ActionListener{
 	CardLayout card;
 	JTextArea textarea;
 	JMenuItem exit;
-	// 以묒슂!
-	ArrayList<VarTableModel> varTableModelList = new ArrayList<VarTableModel>(); // �뿬湲곗뿉 紐⑤뜽�뱾�쓣 �떞�쓬
-	ArrayList<JTable> varTableList = new ArrayList<JTable>(); // �뿬湲곗뿉 紐⑤뜽�쓣 �궗�슜�빐 �깮�꽦�맂 �뀒�씠釉붾뱾�쓣 �떞�쓬
-	
+
+	ArrayList<VarTableModel> varTableModelList = new ArrayList<VarTableModel>(); 
+	ArrayList<JTable> varTableList = new ArrayList<JTable>(); 
 	class TableModel extends AbstractTableModel{		
 		Object[][] data = new Object[c.getMethodCount()+c.getVariableCount()][3];
 		TableModel(){
@@ -100,9 +99,7 @@ public class Gui extends JFrame	implements ActionListener{
 		public Object getValueAt(int row,int col) {return data[row][col];}
 		public Class getColumnClass(int c) {return getValueAt(0,c).getClass();}	
 	}
-	//占쏙옙占쏙옙 占쏙옙占싱븝옙 占쏙옙占쏙옙 占쏙옙占쏙옙
-	//////////////////////////////////////////////////////
-	// 蹂��닔 �뀒�씠釉� 紐⑤뜽�쓣 �븯�굹濡� 吏��젙
+	
 	class VarTableModel extends AbstractTableModel{
 		Object[][] data = new Object[c.getVariableCount()][2];
 		public VarTableModel(int index){
@@ -116,8 +113,7 @@ public class Gui extends JFrame	implements ActionListener{
 		public Object getValueAt(int row,int col) {return data[row][col];}
 		public Class getColumnClass(int c) {return getValueAt(0,c).getClass();}
 	}
-	//////////////////////////////////////////////////////
-	// �븘�슂�뾾�뒗 �겢�옒�뒪 �떎 吏���
+
 	
 	public Gui() {
 		JPanel treepanel = new JPanel();
@@ -155,9 +151,7 @@ public class Gui extends JFrame	implements ActionListener{
 		add(cardpanel);
 		cardpanel.setBounds(420, 50, 550, 300);
 		LineBorder border = new LineBorder(Color.black);
-		/*DefaultTreeCellRenderer renderer = (DefaultTreeCellRenderer)tree.getCellRenderer();
-		Icon leaficon = new ImageIcon("leaf.png");
-		renderer.setLeafIcon(leaficon);*/
+	
 		
 		treepanel.setBorder(border);
 		usepanel.setBorder(border);
@@ -181,7 +175,7 @@ public class Gui extends JFrame	implements ActionListener{
         table.setSize(550, 300);
         table.setRowHeight(30);
         
-        ////////////////////////////////////////////////////////
+       
         for (int i = 0; i < c.getVariableCount(); i++) {
         	VarTableModel tempVarTableModel = new VarTableModel(i);
         	JTable tempVarTable = new JTable(tempVarTableModel);
@@ -190,15 +184,15 @@ public class Gui extends JFrame	implements ActionListener{
         	tempVarTable.setRowHeight(30);
         	
         }
-        // SizeTableModel, TopTableModel �벑�벑�� �떎 吏���.
-        //////////////////////////////////////////////////////////////////
+
+       
         textarea = new JTextArea(30,500);
         textarea.setFont(font);
         textarea.setEditable(true);
         textarea.setCaretPosition(textarea.getDocument().getLength());
         usetextarea.setFont(font);
         
-        //아무거나
+
         cardpanel.add(new JScrollPane(table),"table");
         cardpanel.add(textarea,"textarea");
         cardpanel.setVisible(false);

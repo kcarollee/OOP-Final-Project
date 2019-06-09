@@ -12,8 +12,6 @@ public class Tokenizer {
     public boolean parenthesisOpen = false;
     public KeyWords keyWords = new KeyWords();
     
-    
-
     public class BracketStack{
     	private ArrayList<Character> brackets = new ArrayList<Character>();
     	private void addBracket(char c) {
@@ -30,23 +28,20 @@ public class Tokenizer {
     			else if (brackets.get(i) == '}') {
     				closedNum++;
     			}
-    		}
-    		
+    		}    		
     		if (openNum == closedNum) {
     			return true;
     		}
     		else 
     			return false;
-    	}
-    	
+    	}    	
     	private void clear() {
     		brackets.clear();
     	}
     }
     
     public BracketStack bracketStack = new BracketStack();
-    
-    
+      
     public Tokenizer() {
     }
     
@@ -55,8 +50,6 @@ public class Tokenizer {
         processDefinitions(mainTextBuffer);
     } 
     
-    
-
     public boolean declarationEnded(StringBuffer mainTextBuffer, int index) {
     	int subIndex = 0;
     	if (mainTextBuffer.charAt(index) == '}') {
@@ -96,32 +89,23 @@ public class Tokenizer {
                 bracketNum++;
                 index++;
             }
-
             if (declarationEnded(mainTextBuffer, i)) {
             	index++;
                 break;
             }
-
             else {
-
-                if ((mainTextBuffer.charAt(i) == '/' && mainTextBuffer.charAt(i + 1) == '/')) {
-                
+                if ((mainTextBuffer.charAt(i) == '/' && mainTextBuffer.charAt(i + 1) == '/')) {              
                 	commentMode = true;
                 }
-
                 if (commentMode) {
                     if (mainTextBuffer.charAt(i) == '\r') {
                     	index++;
-
                         commentMode = false;
                     }
                     else {
-                    	index++;
-
-                        continue;
+                    	index++;                        
                     }
                 }
-
                 else {
 
                     if (bracketNum > 1){
@@ -132,8 +116,7 @@ public class Tokenizer {
                         		addedToDefinitionTokens = true;
                         	}
                         	if (mainTextBuffer.charAt(i) != '{')
-                        		methodContentWithin += mainTextBuffer.charAt(i);
-                        	continue;
+                        		methodContentWithin += mainTextBuffer.charAt(i);                       	
                         }
                         else {
                         	definitionTokens.add(methodContentWithin);
@@ -146,20 +129,14 @@ public class Tokenizer {
 
                         if (mainTextBuffer.charAt(i) == '(') {
                         	index++;
-
                         	temp += mainTextBuffer.charAt(i);
-
                             parenthesisOpen = true;
                         }
                         else {
-
                             if (parenthesisOpen) {
-
                                 if (mainTextBuffer.charAt(i) == ')') {
                                 	index++;
-
                                 	temp += mainTextBuffer.charAt(i);
-
                                     parenthesisOpen = false;
                                 }
 
@@ -176,13 +153,10 @@ public class Tokenizer {
                                 		}
                                 	}
                                 	else {
-                                	index++;
-
-                                    continue;
+                                	index++;                                 
                                 	}
                                 }
                             }
-
                             else {
                                 if (isCharOrParenthesis(mainTextBuffer.charAt(i))) {
                                 	index++;
@@ -218,7 +192,7 @@ public class Tokenizer {
     	commentMode = false;
     	boolean blockInitiated = false;
     	boolean gettingMethodName = false;
-    	boolean methodNameParsed = false; 
+    	boolean methodNameParsed = true; 
     	String temp = "";
         String temp2 = "";
         String temp3 = ""; // used for method information tokens: split by \r
@@ -229,46 +203,28 @@ public class Tokenizer {
              }
 
              if (commentMode) {
-                 if (mainTextBuffer.charAt(i) == '\r') {
-                 	
-
+                 if (mainTextBuffer.charAt(i) == '\r') {              
                      commentMode = false;
                  }
-                 else {
-                 	
-
-                     continue;
-                 }
-             }
-
+                 else continue;                
+             }             
              else {
 
             	 if ((mainTextBuffer.charAt(i) == ':' && mainTextBuffer.charAt(i + 1) == ':')) {
             		 gettingMethodName = true;
-            	 }
-            	 
+            	 }            	 
             	 if (gettingMethodName) {
-
-                     if (mainTextBuffer.charAt(i) == '(') {
-                     	
-
+                     if (mainTextBuffer.charAt(i) == '(') {                    
                      	temp += mainTextBuffer.charAt(i);
-
                          parenthesisOpen = true;
                      }
                      else {
-
                          if (parenthesisOpen) {
-
-                             if (mainTextBuffer.charAt(i) == ')') {
-                             	
-
+                             if (mainTextBuffer.charAt(i) == ')') {                             
                              	temp += mainTextBuffer.charAt(i);
-
                                  parenthesisOpen = false;
                                  methodNameParsed = true;
                              }
-
                              else {
                              	if (isChar(mainTextBuffer.charAt(i))) {
                              		if (!isTypeKeyWord(temp2)){
@@ -279,20 +235,12 @@ public class Tokenizer {
                              			temp2 = "";
                              		}
                              	}
-                             	else {
-                             	
-
-                                 continue;
-                             	}
                              }
                          }
-
                          else {
                              if (isCharOrParenthesis(mainTextBuffer.charAt(i))) {
-                             	temp += mainTextBuffer.charAt(i);   
-                                                              
-                             }
-                                                       
+                             	temp += mainTextBuffer.charAt(i);                                                                
+                             }                                                      
                              else {
                             	 if (!methodNameParsed) {
                             		 if (mainTextBuffer.charAt(i) == ' ') {                               	                                 	
@@ -316,8 +264,7 @@ public class Tokenizer {
                      }
             	 }
             	 // not getting methodName -> look for opening bracket
-            	 else {
-            		 
+            	 else {           		 
             		 if (blockInitiated) { 
             			 if (mainTextBuffer.charAt(i) == '{' || mainTextBuffer.charAt(i) == '}') {
             				 bracketStack.addBracket(mainTextBuffer.charAt(i));
@@ -334,10 +281,7 @@ public class Tokenizer {
             			 else {
             				 temp3 += mainTextBuffer.charAt(i);
             			 }
-            		 }
-            		 else {            			
-            			 continue;
-            		 }
+            		 }           		 
             	 }
              }
     	}
@@ -369,8 +313,6 @@ public class Tokenizer {
         }
         return false;
     }
-
-    
 
     public ArrayList<String> getDeclarationTokens(){
         return declarationTokens;

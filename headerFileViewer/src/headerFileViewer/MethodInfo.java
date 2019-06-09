@@ -20,24 +20,7 @@ public class MethodInfo extends Tokenizer {
 	}
 	
 	public void formatMethodContents() {
-			
-		System.out.println("INITIAL TEST");
-		for (int i = 0; i < methodContents.length(); i++) {
-			
-			if (methodContents.charAt(i) == '\r')
-				System.out.print("X");
-			else if (i == methodContents.length() - 1) {
-				System.out.print("L");
-			}
-			else
-				System.out.print(methodContents.charAt(i));
-		}
-		System.out.println();
-		System.out.println("INITIAL TEST OVER");
-		
-		
-		
-		
+				
 		String temp = "";
 		// iterate through method definition by character
 		for (int i = 0; i < methodContents.length(); i++) {
@@ -57,15 +40,7 @@ public class MethodInfo extends Tokenizer {
 				temp += methodContents.charAt(i);
 			}
 		}
-		
-		System.out.println("SECOND TEST");
-		System.out.println(methodSplitByNewLine.size());
-		for (int i = 0; i < methodSplitByNewLine.size(); i++) {
-			System.out.println(methodSplitByNewLine.get(i));
-		}
-		System.out.println("SECOND TEST OVER");
-		
-		
+				
 		for (int i = 0; i < methodSplitByNewLine.size(); i++) {
 			boolean bracketOpened = false;
 			int firstNonSpaceChar = 0;
@@ -87,15 +62,9 @@ public class MethodInfo extends Tokenizer {
 			else // add no spaces
 				methodSplitByNewLine.set(i, methodSplitByNewLine.get(i).substring(firstNonSpaceChar - 1));
 		}
-		System.out.println("TEST");
-		for (String s : methodSplitByNewLine) {
-			System.out.println(s);
-		}
-		System.out.println("TESTOVER");
+		
 	}
 	
-	// 일반적인 토크나이저입니다. 순수 스트링을 받음.
-    // 메스드가 사용하는 변수를 알아낼때 사용하기. 
     public void processTextBuffer(String mainTextBuffer){
         String temp = "";
         boolean commentMode = false;
@@ -142,20 +111,5 @@ public class MethodInfo extends Tokenizer {
 		memberVariables.add(variable);
 	}
 	
-	public void showUsedMemberVariables() {
-		for (String s : memberVariables) {
-			System.out.println(s);
-		}
-	}
-	public void showPureStringTokens() {
-		for (String i : pureStringTokens) {
-			System.out.println(i);
-		}
-	}
-	
-	public void showMethodContents() {
-		for (String i : methodSplitByNewLine) {
-			System.out.println(i);
-		}
-	}
+
 }

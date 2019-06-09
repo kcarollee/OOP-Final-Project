@@ -1,11 +1,9 @@
 package headerFileViewer;
 
 import java.io.*;
-import java.util.StringTokenizer;
 
 public class Parser {
     public StringBuffer mainTextBuffer = new StringBuffer();
-
     public int mainTextIndex = 0;
     FileInputStream file = null;
 
@@ -17,7 +15,6 @@ public class Parser {
                 mainTextBuffer.append((char) mainTextIndex);
                 mainTextIndex = file.read();
             }
-
         } catch (FileNotFoundException e){
             System.out.println("FILE NOT FOUND EXCEPTION");
         } catch(IOException e){
@@ -28,5 +25,4 @@ public class Parser {
     public StringBuffer getTextBuffer(){
         return mainTextBuffer;
     }
-
 }
