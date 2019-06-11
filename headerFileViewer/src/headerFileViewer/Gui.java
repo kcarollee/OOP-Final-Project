@@ -168,6 +168,7 @@ public class Gui extends JFrame	implements ActionListener{
         
         treepanel.add(tree);
         tree.setSize(390,250);
+        tree.setRowHeight(20);
         treepanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         
         TableModel tablemodel = new TableModel();
@@ -197,6 +198,29 @@ public class Gui extends JFrame	implements ActionListener{
         cardpanel.add(textarea,"textarea");
         cardpanel.setVisible(false);
         
+        tree.setCellRenderer(new DefaultTreeCellRenderer() {
+			@Override
+			public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus) {
+				Component com = super.getTreeCellRendererComponent(tree, value, selected, expanded, leaf, row, hasFocus);
+				String s = value.toString();
+				for(int i=0;i<c.getMethodCount()+c.getVariableCount();i++) {
+					if(i<c.getMethodCount()) {
+						if(s.equals(treemodel.getChild(treemodel.getRoot(),i ))) {
+							setIcon(new ImageIcon(new ImageIcon("method.png").getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH)));
+						}
+					}
+					else if(s.equals(treemodel.getChild(treemodel.getRoot(), i))) {
+						setIcon(new ImageIcon(new ImageIcon("variable.png").getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH)));
+					}
+				}
+				
+				/*if (s.equals(treemodel.getRoot())) {
+					setIcon(new ImageIcon(new ImageIcon("method.png").getImage().getScaledInstance(15,15,Image.SCALE_SMOOTH)));
+				}*/
+				
+				return com;
+			}
+		});
         
         tree.addTreeSelectionListener(new TreeSelectionListener() {
 			

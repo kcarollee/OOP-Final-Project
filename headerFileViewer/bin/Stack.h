@@ -1,46 +1,61 @@
-class Stack{
+           class                Stack  {
+
+
+
+
 public:
     Stack(int s  = 10); //default constructor (stack size 10)
+
+
     ~Stack(){delete[] ptr;} // destructor
+
+
     void push(int v); // push an element onto the stack
+
+
+
     int pop(); // pop an element off the stack
-private:
-    bool isEmpty(); // determine whether Stack is empty
-    bool isFull(); // determine whether Stack is full
+
+
 protected:
-    int size; // # of elements in the stacks
+
+
+    bool isEmpty(); // determine whether Stack is empty
+
+
+
+    bool isFull(); // determine whether Stack is full
+private:
+    int size; // # of elements in the stack
     int top; // location of the top element
     int *ptr // pointer to the stack
-};// end class stack
+}; // end class stack
 
-
-int Stack::pop() {
-    if (!isEmpty()){
-        return ptr[top--];
-    }
-         exit(1);
+Stack::Stack(int a){
+    size = s > 0 ? s : 10;
+    top = -1;
+    ptr = new int[size];
 }
-void Stack::push( int v ) {
+
+void Stack::push(int v){
     if (!isFull()){
         ptr[++top] = v;
     } //  end if
 }
 
-
-Stack::Stack( int a ) {
-     size = s > 0 ? s : 10;
-     top = -1;
-     ptr = new int[ size ];
+int Stack::pop(){
+    if (!isEmpty()){
+        return ptr[top--];
+    }
+    exit(1);
 }
 
-bool Stack::isFull() {
-     if (top >= size - 1) return true;
-     else return false;
-}
-
-bool Stack::isEmpty() {
-    if (top == -1) return true;
+bool Stack::isFull(){
+    if (top >= size - 1) return true;
     else return false;
 }
 
-
+bool Stack::isEmpty(){
+    if (top == -1) return true;
+    else return false;
+}
