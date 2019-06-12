@@ -16,9 +16,11 @@ class ViewerTreeModel implements TreeModel{
 
     public String getChild(Object parent, int index){
         if (index < c.getMethodCount()){
+        	System.out.println("TREE TEST 1: " + index);
             return c.getMethodName(index);
         }
         else {
+        	System.out.println("TREE TEST 2: " + index);
         	return c.getFormattedVariableName(index-c.getMethodCount());
         }
     }
@@ -30,6 +32,7 @@ class ViewerTreeModel implements TreeModel{
         for (int i = 0; i < c.methodList.size(); i++){
             if (child.equals(c.methodList.get(i).getName())) {
                 index++;
+                System.out.println("TREE TEST " + index);
                 return index;
             }
             else
@@ -39,12 +42,14 @@ class ViewerTreeModel implements TreeModel{
             index++;
             if(child.equals(c.variableList.get(i).getName())) {
             	index++;
+            	System.out.println("TREE TEST " + index);
             	return index;
             }
             else
                 index++;
                 
         }
+        System.out.println("TREE TEST " + index);
         return index;
     }
 
@@ -207,7 +212,12 @@ public class Gui extends JFrame	implements ActionListener{
 					else if(s.equals(treemodel.getChild(treemodel.getRoot(), i))) {
 						setIcon(new ImageIcon(new ImageIcon("variable.png").getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH)));
 					}
-				}				
+				}
+				
+				/*if (s.equals(treemodel.getRoot())) {
+					setIcon(new ImageIcon(new ImageIcon("method.png").getImage().getScaledInstance(15,15,Image.SCALE_SMOOTH)));
+				}*/
+				
 				return com;
 			}
 		});
@@ -250,5 +260,6 @@ public class Gui extends JFrame	implements ActionListener{
 	public void actionPerformed(ActionEvent evt) {
 		Object source = evt.getSource();
 		System.exit(0);
+		//dispose();
 	}
 }
